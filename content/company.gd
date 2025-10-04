@@ -117,18 +117,25 @@ func change_money(amount, taxable):
 	
 	update_state()
 
-func bankrupt():
+func bankrupt(reason):
 	if vanishing:
 		return
 		
 	vanishing = true
 	
+	$Bankrupt.scale = Vector2.ZERO
+	$Bankrupt.show()
+	$Bankrupt.text = reason
+	
 	var tw = create_tween()
-	tw.tween_property(self,"scale", Vector2.ZERO , 1.0).from(0.1 * Vector2.ONE)\
+	tw.tween_property($Bankrupt,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\
+			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(2.0)
+	tw.tween_property(self,"scale", Vector2.ZERO , 1.0).from(Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(queue_free)
 	
-	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(0.5)
+	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(2.0)
 
 func change_goods(amount):
 	goods += amount

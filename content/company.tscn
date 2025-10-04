@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://q75q7axsbbn2"]
+[gd_scene load_steps=7 format=3 uid="uid://q75q7axsbbn2"]
 
 [ext_resource type="Script" uid="uid://bnq8y0x42nsn" path="res://content/company.gd" id="1_4tmwa"]
 [ext_resource type="Texture2D" uid="uid://bjkgxuqnvrao7" path="res://art/circle.png" id="2_gqgfu"]
@@ -15,6 +15,12 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t5md1"]
 outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_plokw"]
+font_size = 72
+font_color = Color(1, 0, 0, 1)
+outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
 [node name="Company" type="Control"]
@@ -104,4 +110,18 @@ offset_right = 89.0
 offset_bottom = 52.0
 text = "GOODS: 1234"
 label_settings = SubResource("LabelSettings_t5md1")
+vertical_alignment = 1
+
+[node name="Bankrupt" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -201.0
+offset_top = -39.0
+offset_right = 183.0
+offset_bottom = 45.0
+rotation = 0.6337966
+pivot_offset = Vector2(200, 40)
+text = "BANKRUPT"
+label_settings = SubResource("LabelSettings_plokw")
+horizontal_alignment = 1
 vertical_alignment = 1

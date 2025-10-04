@@ -12,5 +12,5 @@ func _ready() -> void:
 	
 func on_owner_vanish():
 	if destination and destination.player_owned:
-		destination.bankrupt()	
+		destination.bankrupt("LIQUIDATED!")	
 		

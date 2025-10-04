@@ -21,7 +21,7 @@ func on_target_reached():
 	var tax = destination.tax
 	
 	if destination.money < -2000.0:
-		destination.bankrupt()
+		destination.bankrupt("BANKRUPT!")
 	
 	if tax <= 0.0:
 		#goes back with nothing
