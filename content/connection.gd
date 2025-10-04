@@ -80,7 +80,7 @@ func get_points():
 	if dest_obj:
 		src_angle = G.world.get_angle_between(source.position, dest_obj.position)
 	else:
-		src_angle = 0.0
+		src_angle = source_angle
 	
 	var p1 = Util.get_company_surface_offset(source, src_angle)
 	var p2 = p1 *2.0
@@ -118,12 +118,13 @@ func set_preview_target(t):
 
 
 func try_use(target):
-	if target == source:
+	if target == source or not target:
 		return true
 	
 	destination = target
 	G.input.set_selected(null)
-	on_connection_established()
+	if destination:
+		on_connection_established()
 	return true
 
 
