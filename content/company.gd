@@ -109,9 +109,6 @@ func change_money(amount, taxable):
 	if taxable:
 		tax += roundi(amount * 0.21)
 	
-	if money < -2000.0:
-		bankrupt()
-	
 	update_state()
 
 func bankrupt():

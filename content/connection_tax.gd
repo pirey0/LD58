@@ -19,6 +19,9 @@ func on_connection_established():
 func on_target_reached():
 	var tax = destination.tax
 	
+	if destination.money < -2000.0:
+		destination.bankrupt()
+	
 	if tax <= 0.0:
 		#goes back with nothing
 		var inst := spawn_item( preload("res://content/connection_item_person.tscn"))
@@ -32,4 +35,3 @@ func on_target_reached():
 	var item = spawn_item(preload("res://content/connection_item_money.tscn"))
 	item.value = tax
 	item.reversed = true
-	

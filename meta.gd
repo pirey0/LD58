@@ -3,12 +3,22 @@ extends Node
 @export var progress_slider : HSlider
 @export var tev : Label
 @export var contribution : Label
+@export var gameover_obj : Control
+@export var gameover_reason : Label
+@export var retry_button : Button
 
 var time := 0.0
 
 var year_duration := 120.0
 
 var in_year_end := false
+
+func _ready() -> void:
+	gameover_obj.hide()
+	await get_tree().physics_frame
+	var root = get_tree().get_first_node_in_group("main_company")
+	root.on_vanish.connect(gameover.bind("%s went insolvent.\n\
+	 The courts lifted the corporate veil, you have to stand trial. "% root.company_name))
 
 func update_stats():
 	
@@ -51,5 +61,30 @@ func start_new_year():
 	
 	
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_1 and event.is_pressed():
-		trigger_year_end()
+	if event is InputEventKey and event.is_pressed():
+		match event.keycode:
+			KEY_1:
+				trigger_year_end()
+			KEY_2:
+				gameover("CHEAT!")
+			KEY_3:
+				Engine.time_scale += 1
+			KEY_4:
+				Engine.time_scale -= 1
+
+func gameover(reason):
+	gameover_obj.scale = Vector2.ZERO
+	gameover_obj.show()
+	gameover_reason.text = reason
+	#TODO animation
+	
+	var tw := create_tween()
+	tw.tween_interval(2.0)
+	tw.tween_callback(func(): Engine.time_scale =0.1)
+	tw.tween_property(gameover_obj,"scale", Vector2.ONE , 0.5).from(0.0 * Vector2.ONE)\
+		.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	retry_button.pressed.connect(on_retry)
+
+func on_retry():
+	get_tree().quit(0)
