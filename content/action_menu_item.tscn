@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vlbbk")
 
-[node name="Main2" type="TextureRect" parent="."]
+[node name="BG" type="TextureRect" parent="."]
 modulate = Color(0, 0.6738516, 0.7128488, 1)
 y_sort_enabled = true
 texture_filter = 1
@@ -67,3 +67,13 @@ offset_right = 30.0
 offset_bottom = -16.0
 mouse_filter = 2
 texture = ExtResource("3_l5bdr")
+
+[node name="Tooltip" type="Label" parent="."]
+layout_mode = 0
+offset_left = -198.0
+offset_top = -63.0
+offset_right = 202.0
+offset_bottom = -35.0
+text = "Tooltip"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c58mfjg31xaof"]
+
+[ext_resource type="PackedScene" uid="uid://dfhcnt4anthyy" path="res://content/connection_item_base.tscn" id="1_ddqkl"]
+[ext_resource type="Texture2D" uid="uid://dlo3haar5q133" path="res://art/goods_icon.png" id="2_lkmxx"]
+
+[node name="ConnectionItem" instance=ExtResource("1_ddqkl")]
+speed = 0.1
+
+[node name="Icon" parent="." index="2"]
+modulate = Color(0, 0.77602226, 0.77602214, 1)
+texture = ExtResource("2_lkmxx")

@@ -20,16 +20,30 @@ func screen_to_world_pos(p:Vector2) -> Vector2:
 	var out = -position/scale + p / scale
 	return out
 
-func spawn_company_at(pos:Vector2, _name = null):
-	var inst : Company = preload("res://content/company.tscn").instantiate()
+func spawn_company_at(pos:Vector2, _name = null, scene = null):
+	if scene == null:
+		scene = preload("res://content/company.tscn")
+	
+	var inst : Company = scene.instantiate()
 	inst.position = pos
 	add_child(inst, true)
 	if _name:
 		inst.company_name = _name
 	return inst
 
-func spawn_connection(origin, origin_angle:float, target, target_angle : float):
+func spawn_transfer_connection(origin, origin_angle:float, target, target_angle : float):
 	var inst : Connection = preload("res://content/connection_transfer.gd").new()
+	inst.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inst.source = origin
+	inst.source_angle = origin_angle
+	inst.destination = target
+	inst.destination_angle = target_angle
+	add_child(inst, true)
+	return inst
+
+
+func spawn_goods_connection(origin, origin_angle:float, target, target_angle : float):
+	var inst : Connection = preload("res://content/connection_goods.gd").new()
 	inst.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inst.source = origin
 	inst.source_angle = origin_angle

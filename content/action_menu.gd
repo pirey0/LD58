@@ -15,15 +15,17 @@ func open_for(object):
 		close()
 	
 	if object == null:
-		object = self
+		return
+	
+	var actions = object.get_actions()
+	
+	if actions.size() == 0:
+		return
 	
 	subject = object
-
 	if spawn_tween:
 		spawn_tween.kill()
 	spawn_tween = create_tween()
-	
-	var actions = subject.get_actions()
 	
 	var starting_angle := G.world.get_mouse_angle_to(subject.position)
 	
@@ -39,7 +41,7 @@ func spawn_item_for_action(starting_angle, x, idx):
 	var item = preload("res://content/action_menu_item.tscn").instantiate()
 	item.callback = on_click.bind(x)
 	
-	var angle = 2*PI* float(idx)/8
+	var angle = 2*PI* float(idx)/16
 	
 	if subject is Company:
 		item.position = subject.position + Util.get_company_surface_offset(subject, starting_angle + angle) * 1.4

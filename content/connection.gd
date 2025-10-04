@@ -5,6 +5,7 @@ signal on_vanish
 
 var source : Company
 var destination : Company
+var no_producer_target := true
 
 var size_mult := 0.0
 var preview_target = null
@@ -16,6 +17,8 @@ var source_angle
 var destination_angle
 
 var freeing = false
+var connected := false
+
 
 func _ready() -> void:
 	position = source.position
@@ -24,8 +27,13 @@ func _ready() -> void:
 	tw.set_parallel(true)
 	tw.tween_property(self, "completion", 1.0, 1.0).set_trans(Tween.TransitionType.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tw.tween_property(self, "size_mult", 1.0, 1.0).set_trans(Tween.TransitionType.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-
+	tw.set_parallel(false)
+	tw.tween_callback(delayed_ready)
 	
+func delayed_ready():
+	if destination and not connected:
+		on_connection_established()
+
 func vanish():
 	if freeing:
 		return
@@ -114,21 +122,30 @@ func draw_connection(curve_points):
 	draw_polyline(points, Color.WHITE, 6.0 * size_mult)
 
 func set_preview_target(t):
-	preview_target = t if t != source else null
+	preview_target = t if is_target_valid(t) else null
 
+func is_target_valid(target):
+	if target == source or not target:
+		return false
+	
+	if no_producer_target and target is ProducerCompany:
+		return false
+	
+	return true
 
 func try_use(target):
-	if target == source or not target:
+	if not is_target_valid(target):
 		return true
-	
+		
 	destination = target
 	G.input.set_selected(null)
-	if destination:
+	if destination and not connected:
 		on_connection_established()
 	return true
 
 
 func on_connection_established():
+	connected = true
 	pass
 
 func on_select():
