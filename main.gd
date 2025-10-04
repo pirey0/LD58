@@ -10,14 +10,19 @@ func _ready() -> void:
 
 	var goods :Company = G.world.spawn_company_at(pos + Vector2(1000,0), "Retailer", preload("res://content/producer_company.tscn"))
 	goods.description = "Buys and Sells Goods"
-	goods.size_mult = 3.0
+	goods.size_mult = 2.5
 	goods.base_color = Color.AQUA
 	goods.apply_size()
 	
 
-	var bank :Company = G.world.spawn_company_at(pos + Vector2(-1000,0), "Corporate Loan Bank", preload("res://content/bank_company.tscn"))
+	var bank :Company = G.world.spawn_company_at(pos + Vector2(-1200,0), "Corporate Loan Bank", preload("res://content/bank_company.tscn"))
 	bank.description = "Offers Loans to worthy\n corporations."
 	bank.size_mult = 3.0
 	bank.base_color = Color.GOLD
 	bank.apply_size()
 	
+	var government :Company = G.world.spawn_company_at(pos + Vector2(0,-1400), "IRS", preload("res://content/government_company.tscn"))
+	government.description = "National Tax Authority"
+	government.size_mult = 4.0
+	government.base_color = Color.NAVY_BLUE
+	government.apply_size()

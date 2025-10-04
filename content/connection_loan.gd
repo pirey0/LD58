@@ -59,7 +59,6 @@ func on_year_end():
 	
 
 func on_debt_collector_reached():
-	print(loan.debt_service * loan.period)
 	destination.remove_debt(loan.debt_service)
 	destination.change_money(-loan.debt_service, false)
 	

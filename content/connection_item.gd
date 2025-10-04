@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 	position = connection.get_pos_at((1.0 - progress) if reversed else progress)
 	
 func on_target_reached():
-	target_reached.emit()
+	create_tween().tween_callback(func(): target_reached.emit()).set_delay(0.5)
 	vanish()
 
 func on_connection_vanish():

@@ -27,7 +27,6 @@ var vanishing := false
 
 func _ready() -> void:
 	add_to_group("object")
-	add_to_group("end_of_year_listener")
 	company_name = Util.get_random_company_name()
 	mouse_entered.connect(on_mouse_enter)
 	mouse_exited.connect(on_mouse_exit)
@@ -144,6 +143,7 @@ func remove_debt(amount):
 func apply_size():
 	$Circle.size = Vector2.ONE * 256 * size_mult
 	$Circle.position = $Circle.size * -0.5
+	update_highlight()
 
 func update_state():
 	$Money.text = Util.format_money(money)
@@ -168,9 +168,6 @@ func update_state():
 	$Goods.visible = goods != 0
 	$Goods.text = "GOODS: %s" % str(goods)
 	$Goods.modulate = Color.GREEN
-
-func on_year_end():
-	pass
 
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()
