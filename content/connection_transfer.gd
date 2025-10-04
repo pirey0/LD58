@@ -29,4 +29,4 @@ func update_sending(delta):
 	
 	var inst : ConnectionItem = preload("res://content/connection_item.tscn").instantiate()
 	inst.setup(self, packet_size)
-	G.world.add_child(inst)
+	G.world.add_child(inst,true)

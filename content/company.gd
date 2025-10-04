@@ -20,7 +20,7 @@ func _ready() -> void:
 	mouse_entered.connect(on_mouse_enter)
 	mouse_exited.connect(on_mouse_exit)
 	
-	money = 1000
+	money = 0
 	update_state()
 	
 	var tw = create_tween()
@@ -45,17 +45,10 @@ func _gui_input(event: InputEvent) -> void:
 
 func get_actions() -> Array[ContextAction]:
 	return [
-		ContextAction.new(create_connection, preload("res://art/trade_icon.png"), preload("res://art/plus.png"), Color.ORANGE_RED),
-		ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN),
-		ContextAction.new(delete_company, preload("res://art/company_icon.png"), preload("res://art/minus.png"), Color.ORANGE_RED),
+		ContextAction.new(create_connection, preload("res://art/trade_icon.png"), preload("res://art/plus.png"), Color.ORANGE_RED)
 	]
 	
-func delete_company():
-	queue_free()
 
-func create_subsidiary():
-	var sub = G.world.spawn_company_at(position + Vector2(0, 300))
-	
 func create_connection():
 	var connection = G.world.spawn_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	G.input.set_selected(connection)

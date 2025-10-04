@@ -8,12 +8,12 @@ func _ready() -> void:
 	$Button.pressed.connect(callback)
 	scale = Vector2.ZERO
 	var tw = create_tween()
-	tw.tween_property(self,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\
+	tw.tween_property(self,"scale", Vector2.ONE , 0.5).from(0.1 * Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
-func selfdestroy():
+func vanish():
 	var tw = create_tween()
-	tw.tween_property(self,"scale", Vector2.ZERO , 0.5).from(Vector2.ONE)\
+	tw.tween_property(self,"scale", Vector2.ZERO , 0.2).from(Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(queue_free)
 

@@ -8,14 +8,14 @@ func _ready() -> void:
 	G.action_menu = self
 
 func open_for(object):
-	if subject == object:
+	if subject == object and subject != null:
 		return
 	
 	if subject:
 		close()
 	
-	if not object:
-		return
+	if object == null:
+		object = self
 	
 	subject = object
 
@@ -38,9 +38,13 @@ func spawn_item_for_action(x, idx):
 	item.callback = on_click.bind(x)
 	
 	var angle = 2*PI* float(idx)/8
-	item.position = subject.position + Util.get_company_surface_offset(subject, angle) * 1.4
 	
-	add_child(item)
+	if subject is Company:
+		item.position = subject.position + Util.get_company_surface_offset(subject, angle) * 1.4
+	else:
+		item.position = G.world.get_mouse_pos_world() + Vector2(sin(angle), -cos(angle)) * 50.0
+	
+	add_child(item,true)
 	item.setup(x)
 	
 func close():
@@ -48,5 +52,13 @@ func close():
 	
 	var tw = create_tween()
 	for x in get_children():
-		tw.tween_callback(x.selfdestroy)
+		tw.tween_callback(x.vanish)
 		tw.tween_interval(0.1)
+
+func get_actions():
+	return [
+			ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN)
+		]
+
+func create_subsidiary():
+	var sub = G.world.spawn_company_at(G.world.get_mouse_pos_world())

@@ -107,8 +107,8 @@ func draw_connection(curve_points):
 	var points = PackedVector2Array()
 	var steps = 24
 
-	for i in range(roundi(steps * completion) + 1):
-		var t = float(i) / steps
+	for i in range(steps + 1):
+		var t = min(completion, float(i) / steps)
 		points.append(get_point_at(curve_points,t))
 
 	draw_polyline(points, Color.WHITE, 6.0 * size_mult)

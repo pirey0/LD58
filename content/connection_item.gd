@@ -14,6 +14,9 @@ func setup(con : Connection, value):
 	
 
 func _ready() -> void:
+	var tw = create_tween()
+	tw.tween_property(self,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\
+			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	pass
 
 func _process(delta: float) -> void:
@@ -37,5 +40,9 @@ func vanish():
 	if vanished:
 		return
 	vanished = true
-	queue_free()
+	
+	var tw = create_tween()
+	tw.tween_property(self,"scale", Vector2.ZERO , 0.5).from(Vector2.ONE)\
+			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.tween_callback(queue_free)
 	
