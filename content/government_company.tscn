@@ -25,6 +25,7 @@ grow_vertical = 2
 script = ExtResource("1_wf6py")
 
 [node name="Circle" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

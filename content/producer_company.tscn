@@ -19,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("2_52pd6")
 
 [node name="Circle" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

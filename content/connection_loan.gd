@@ -35,12 +35,11 @@ func on_loan_proposal_finished(proposal :Company.LoanProposal):
 		return
 	
 	loan = proposal
-	
-	var tw := create_tween()
-	
-	var step := 1000
+	add_to_group("end_of_year_listener")
 	remaining = loan.proposed_sum
 	
+	var step := 1000
+	var tw := create_tween()
 	for x in ceili(float(loan.proposed_sum)/step):
 		tw.tween_callback(func():
 				var value = min(step, remaining)
@@ -54,6 +53,11 @@ func deliver_money(x):
 	destination.add_debt(x, loan.interest)
 
 func on_year_end():
+	#dont get returns immediately
+	if year == 0:
+		year+= 1
+		return
+	
 	var inst := spawn_item( preload("res://content/connection_item_person.tscn"))
 	inst.target_reached.connect(on_debt_collector_reached)
 	inst.person_name = "Debt Collector"
@@ -68,8 +72,8 @@ func on_debt_collector_reached():
 	item.reversed = true
 	
 	year += 1
-	if year >= loan.period:
+	if year > loan.period:
 		close()
 
 func on_loan_delivered():
-	add_to_group("end_of_year_listener")
+	pass

@@ -20,6 +20,8 @@ func on_connection_established():
 func on_target_reached():
 	var tax = destination.tax
 	
+	destination.on_year_end()
+	
 	if destination.money < -2000.0:
 		destination.bankrupt("BANKRUPT!")
 	
@@ -36,3 +38,4 @@ func on_target_reached():
 	var item = spawn_item(preload("res://content/connection_item_money.tscn"))
 	item.value = tax
 	item.reversed = true
+	

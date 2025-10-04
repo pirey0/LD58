@@ -36,6 +36,7 @@ mouse_filter = 1
 script = ExtResource("1_4tmwa")
 
 [node name="Circle" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -56,7 +57,7 @@ offset_left = -58.0
 offset_top = -60.0
 offset_right = 63.0
 offset_bottom = -20.0
-text = "144m $"
+text = "$3.45m"
 label_settings = SubResource("LabelSettings_gqgfu")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -73,10 +74,10 @@ vertical_alignment = 1
 
 [node name="MoneyDiff" type="Label" parent="."]
 layout_mode = 0
-offset_left = 45.0
-offset_top = -91.0
-offset_right = 166.0
-offset_bottom = -45.0
+offset_left = 39.0
+offset_top = -88.0
+offset_right = 160.0
+offset_bottom = -42.0
 text = "▲ 2.3%"
 label_settings = SubResource("LabelSettings_etndd")
 horizontal_alignment = 1

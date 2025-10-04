@@ -14,16 +14,18 @@ var company_name : String:
 		$Name.text = x
 
 var size_mult : float
+var width_mult := 1.0
 
 var last_money : int
-var last_income : int
+var last_revenue : int
 var money : int
 var debt : int
 var tax : int
 var goods : int
-var base_color := Color.WHITE
+var circle_color := Color.FLORAL_WHITE
 var player_owned := false
 var vanishing := false
+var is_in_first_year := true
 
 func _ready() -> void:
 	add_to_group("object")
@@ -32,7 +34,6 @@ func _ready() -> void:
 	mouse_exited.connect(on_mouse_exit)
 	
 	update_state()
-	update_highlight()
 	
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\
@@ -50,7 +51,18 @@ func on_mouse_exit() -> void:
 	update_highlight()
 
 func update_highlight():
-	vis.modulate = Color.ORANGE if selected else (Color.YELLOW if hovered else base_color)
+	if selected:
+		width_mult = 1.5
+	elif hovered:
+		width_mult = 1.25
+	else:
+		width_mult = 1.0
+
+func _process(delta: float) -> void:
+	queue_redraw()
+	
+func _draw() -> void:
+	draw_circle(Vector2.ZERO,122 * size_mult, circle_color, false, 4.0 * size_mult * width_mult)
 
 func _gui_input(event: InputEvent) -> void:
 	G.input.process_input(event)
@@ -76,21 +88,26 @@ func create_buy_line2():
 	connection.modifier_color = Color.ORANGE_RED
 	connection.good_value = Balancing.GOOD_VALUE_HIGH
 	G.input.set_selected(connection)
+	
 
 func create_subsidiary():
 	if money < 1000:
 		return
 	
-	var sub = G.world.spawn_company_at(position + Vector2(0, 500.0))
+	var sub = G.world.spawn_company_at(position + Vector2(0, 800.0))
 	sub.player_owned = true
 	var connection = G.world.spawn_transfer_connection(self, 0.0, sub, 0.0)
 	connection.taxable = false
 	connection.max_amount = roundi(money * 0.25)
 	connection.packet_size = roundi(money * 0.025)
+	connection.on_vanish.connect(on_initial_transaction_finished_for_sub.bind(sub))	
 	
 	connection = G.world.spawn_connection(self, 0.0, sub, 0.0,preload("res://content/connection_ownership.gd"))
-	
 
+func on_initial_transaction_finished_for_sub(x):
+	#end of initial transaction marks starting money	
+	x.last_money = x.money
+	
 func create_connection():
 	var connection = G.world.spawn_transfer_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	G.input.set_selected(connection)
@@ -158,12 +175,13 @@ func update_state():
 	size_mult = max(1.0, (log(money)/log(10) - 2.0))
 	apply_size()
 	
-	if last_money == 0:
+	if last_money == 0 or last_money == money:
 		$MoneyDiff.hide()
 	else:
 		$MoneyDiff.show()
 		$MoneyDiff.modulate = Color.GREEN if money > last_money else Color.RED
-		$MoneyDiff.text = "%.1f" % ((money - last_money)/last_money)
+		var change = (100.0* (money - last_money)/last_money)
+		$MoneyDiff.text = ("▲" if change > 0 else "▼")  + ("%.1f%%" %  abs(change))
 	
 	$Tax.visible = tax != 0
 	$Tax.text = "TAX: %s" % Util.format_money(tax) 
@@ -177,22 +195,28 @@ func update_state():
 	$Goods.text = "GOODS: %s" % str(goods)
 	$Goods.modulate = Color.GREEN
 
+func on_year_end():
+	last_revenue = money - last_money
+	last_money = money
+	is_in_first_year = false
+
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()
 	out.period = randi_range(2,5)
-	out.evaluation = max(5000.0, last_income)
+	out.evaluation = last_revenue
 	out.debt = debt
 	
 	out.proposed_sum = (out.evaluation - debt) * randf_range(0.3, 1.1)
 	out.interest = randf_range(0.05, 0.25)
 	out.debt_service = out.proposed_sum * (1.0+out.interest) / out.period
 	
-	if out.debt > 0.5*out.evaluation:
-		out.fail_reason = LoanProposal.FailReason.Debt
-	elif out.evaluation <= 0.0:
-		out.fail_reason = LoanProposal.FailReason.TooYoung
-	elif out.evaluation <= 1000.0:
+	if out.evaluation <= 1000.0:
 		out.fail_reason = LoanProposal.FailReason.LowIncome
+	elif out.debt > 0.5*out.evaluation:
+		out.fail_reason = LoanProposal.FailReason.Debt
+	elif out.evaluation <= 0.0 or is_in_first_year:
+		out.fail_reason = LoanProposal.FailReason.TooYoung
+	
 	return out
 
 class LoanProposal extends RefCounted:
