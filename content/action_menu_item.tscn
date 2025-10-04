@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://bw74ln7nu0au8"]
+
+[ext_resource type="Texture2D" uid="uid://bjkgxuqnvrao7" path="res://art/circle.png" id="1_ff5op"]
+[ext_resource type="Script" uid="uid://begovigec88su" path="res://content/action_menu_item.gd" id="1_vlbbk"]
+[ext_resource type="Texture2D" uid="uid://dwrbwfh2bqf5e" path="res://art/company_icon.png" id="2_6vc0b"]
+[ext_resource type="Texture2D" uid="uid://ckf24n7yjp4t0" path="res://art/plus.png" id="3_l5bdr"]
+
+[node name="ActionMenuItem" type="Control"]
+z_index = 10
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vlbbk")
+
+[node name="Button" type="TextureButton" parent="."]
+layout_mode = 1
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture_normal = ExtResource("1_ff5op")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Main" type="TextureRect" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 0
+offset_left = -20.0
+offset_top = -21.0
+offset_right = 20.0
+offset_bottom = 19.0
+mouse_filter = 2
+texture = ExtResource("2_6vc0b")
+
+[node name="Modifier" type="TextureRect" parent="."]
+modulate = Color(0, 1, 0, 1)
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = -36.0
+offset_right = 30.0
+offset_bottom = -16.0
+mouse_filter = 2
+texture = ExtResource("3_l5bdr")
