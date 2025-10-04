@@ -12,6 +12,7 @@ var preview_target = null
 var completion := 0.0
 
 var color := Color.WHITE
+var base_color := Color.WHITE
 
 var source_angle
 var destination_angle
@@ -119,7 +120,7 @@ func draw_connection(curve_points):
 		var t = min(completion, float(i) / steps)
 		points.append(get_point_at(curve_points,t))
 
-	draw_polyline(points, Color.WHITE, 6.0 * size_mult)
+	draw_polyline(points, color, 6.0 * size_mult)
 
 func set_preview_target(t):
 	preview_target = t if is_target_valid(t) else null
@@ -153,7 +154,7 @@ func on_select():
 	pass
 
 func on_deselect():
-	color = Color.WHITE
+	color = base_color
 	
 	if not destination:
 		vanish()

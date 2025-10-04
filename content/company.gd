@@ -19,6 +19,7 @@ var debt : int
 var tax : int
 var goods : int
 var base_color := Color.WHITE
+var player_owned := false
 
 func _ready() -> void:
 	add_to_group("object")
@@ -74,6 +75,7 @@ func create_buy_line2():
 
 func create_subsidiary():
 	var sub = G.world.spawn_company_at(position + Vector2(0, 500.0))
+	sub.player_owned = true
 	var connection = G.world.spawn_transfer_connection(self, 0.0, sub, 0.0)
 	connection.taxable = false
 	connection.max_amount = roundi(money * 0.25)

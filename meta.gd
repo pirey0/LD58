@@ -1,6 +1,8 @@
 extends Node
 
 @export var progress_slider : HSlider
+@export var tev : Label
+@export var contribution : Label
 
 var time := 0.0
 
@@ -8,7 +10,18 @@ var year_duration := 60.0
 
 var in_year_end := false
 
+func update_stats():
+	
+	var total := 0
+	
+	for x in get_tree().get_nodes_in_group("object"):
+		if x is Company and x.player_owned:
+			total += x.money + x.goods * 300.0 - x.debt - max(0.0, x.tax)
+	tev.text = Util.format_money(total)
+	pass
+
 func _physics_process(delta: float) -> void:
+	update_stats()
 	
 	if in_year_end:
 		return 

@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://bysbfusbq2otk"]
+
+[ext_resource type="Script" uid="uid://rorlcdm2jm1y" path="res://content/bank_company.gd" id="1_4nc84"]
+[ext_resource type="Texture2D" uid="uid://bjkgxuqnvrao7" path="res://art/circle.png" id="2_tg6sj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3v5bi"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="BankCompany" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4nc84")
+
+[node name="Circle" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tg6sj")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 0
+offset_left = -102.0
+offset_top = -14.0
+offset_right = 96.0
+offset_bottom = 14.0
+text = "Company Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Descr" type="Label" parent="."]
+layout_mode = 0
+offset_left = -59.0
+offset_top = 12.0
+offset_right = 89.0
+offset_bottom = 52.0
+text = "Description"
+label_settings = SubResource("LabelSettings_3v5bi")
+vertical_alignment = 1

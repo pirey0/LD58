@@ -32,18 +32,16 @@ func spawn_company_at(pos:Vector2, _name = null, scene = null):
 	return inst
 
 func spawn_transfer_connection(origin, origin_angle:float, target, target_angle : float):
-	var inst : Connection = preload("res://content/connection_transfer.gd").new()
-	inst.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	inst.source = origin
-	inst.source_angle = origin_angle
-	inst.destination = target
-	inst.destination_angle = target_angle
-	add_child(inst, true)
-	return inst
-
+	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://content/connection_transfer.gd"))
 
 func spawn_goods_connection(origin, origin_angle:float, target, target_angle : float):
-	var inst : Connection = preload("res://content/connection_goods.gd").new()
+	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://content/connection_goods.gd"))
+
+func spawn_loan_connection(origin, origin_angle:float, target, target_angle : float):
+	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://content/connection_loan.gd"))
+
+func spawn_connection(origin, origin_angle:float, target, target_angle : float, script):
+	var inst : Connection = script.new()
 	inst.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inst.source = origin
 	inst.source_angle = origin_angle

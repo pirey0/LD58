@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://d20204i6maq5r"]
+[gd_scene load_steps=7 format=3 uid="uid://d20204i6maq5r"]
 
 [ext_resource type="Script" uid="uid://nkqilml4gnd1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dmk7yhquxc2uu" path="res://world.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://r3sdteqfw6kj" path="res://input.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://4as6mi5yp5ye" path="res://content/action_menu.tscn" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://qy2jwjkm2wl1" path="res://meta.gd" id="5_lquwl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_ig7tw")
@@ -40,9 +42,10 @@ zoom_minmax = Vector2(0.1, 2)
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider")]
+[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev")]
 script = ExtResource("5_lquwl")
 progress_slider = NodePath("../HSlider")
+tev = NodePath("../tev")
 
 [node name="HSlider" type="HSlider" parent="UI"]
 anchors_preset = 5
@@ -65,4 +68,34 @@ offset_left = 981.0
 offset_top = 26.0
 offset_right = 1021.0
 offset_bottom = 54.0
-text = "TAX"
+text = "tax"
+
+[node name="tev" type="Label" parent="UI"]
+offset_left = 42.0
+offset_top = 70.0
+offset_right = 122.0
+offset_bottom = 98.0
+text = "12.4m"
+
+[node name="Label2" type="Label" parent="UI"]
+offset_left = 27.0
+offset_top = 44.0
+offset_right = 238.0
+offset_bottom = 72.0
+text = "Total Enterprise value"
+label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="Label3" type="Label" parent="UI"]
+offset_left = 26.0
+offset_top = 125.0
+offset_right = 259.0
+offset_bottom = 153.0
+text = "Contribution to society"
+label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="contr" type="Label" parent="UI"]
+offset_left = 40.0
+offset_top = 152.0
+offset_right = 120.0
+offset_bottom = 180.0
+text = "0$"
