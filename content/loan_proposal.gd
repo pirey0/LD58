@@ -12,7 +12,7 @@ func setup(company:Company):
 	%proposal.text = Util.format_money(proposal.proposed_sum)
 	%debt_service.text = Util.format_money(proposal.debt_service)
 	%period.text = "%s years" % str(proposal.period)
-	
+	%interest.text = "%0.1f" % (proposal.interest * 100)
 	%refusal_reason.visible = not proposal.is_positive()
 	if not proposal.is_positive():
 		%Decline.hide()

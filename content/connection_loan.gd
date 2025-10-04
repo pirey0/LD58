@@ -1,10 +1,19 @@
 extends Connection
 
+var loan : Company.LoanProposal
+var year := 0
+var remaining := 0:
+	set(x):
+		remaining = x
+		if remaining<=0:
+			on_loan_delivered()
 
 func _ready() -> void:
 	super()
-	set_physics_process(false)
 	self.base_color = Color.SLATE_GRAY
+
+func _physics_process(delta: float) -> void:
+	update_closure()
 
 func on_connection_established():
 	super()
@@ -24,4 +33,43 @@ func on_loan_proposal_finished(proposal :Company.LoanProposal):
 		vanish()
 		return
 	
-	#TODO
+	loan = proposal
+	
+	var tw := create_tween()
+	
+	var step := 1000
+	remaining = loan.proposed_sum
+	
+	for x in ceili(float(loan.proposed_sum)/step):
+		tw.tween_callback(func():
+				var value = min(step, remaining)
+				var item = spawn_item(preload("res://content/connection_item_money.tscn"))
+				item.target_reached.connect(deliver_money.bind(value))
+				remaining -= value
+				item.value = value
+						).set_delay(1.0)
+
+func deliver_money(x):
+	destination.add_debt(x, loan.interest)
+
+func on_year_end():
+	var inst := spawn_item( preload("res://content/connection_item_person.tscn"))
+	inst.target_reached.connect(on_debt_collector_reached)
+	inst.person_name = "Debt Collector"
+	
+
+func on_debt_collector_reached():
+	print(loan.debt_service * loan.period)
+	destination.remove_debt(loan.debt_service)
+	destination.change_money(-loan.debt_service, false)
+	
+	var item = spawn_item(preload("res://content/connection_item_money.tscn"))
+	item.value = loan.debt_service
+	item.reversed = true
+	
+	year += 1
+	if year >= loan.period:
+		close()
+
+func on_loan_delivered():
+	add_to_group("end_of_year_listener")

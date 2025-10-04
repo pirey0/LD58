@@ -6,7 +6,7 @@ extends Node
 
 var time := 0.0
 
-var year_duration := 60.0
+var year_duration := 120.0
 
 var in_year_end := false
 
@@ -35,9 +35,13 @@ func _physics_process(delta: float) -> void:
 
 func trigger_year_end():
 	in_year_end = true
+	progress_slider.value = 1.0
+	
+	for x in get_tree().get_nodes_in_group("end_of_year_listener"):
+		x.on_year_end()
 	
 	var tw := create_tween()
-	tw.tween_callback(start_new_year).set_delay(3.0)
+	tw.tween_callback(start_new_year).set_delay(10.0)
 	
 	pass
 
@@ -46,3 +50,6 @@ func start_new_year():
 	in_year_end = false
 	
 	
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_1 and event.is_pressed():
+		trigger_year_end()

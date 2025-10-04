@@ -12,6 +12,8 @@ var reversed := false
 func setup(con : Connection):
 	connection = con
 	con.on_vanish.connect(on_connection_vanish)
+	if con.freeing:
+		on_connection_vanish()
 	
 func _ready() -> void:
 	var tw = create_tween()

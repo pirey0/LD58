@@ -104,6 +104,20 @@ layout_mode = 2
 text = "14.5k $"
 label_settings = SubResource("LabelSettings_j5v44")
 
+[node name="HBoxContainer6" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer6"]
+layout_mode = 2
+text = "Interest: 	             "
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="interest" type="Label" parent="Control/parent/HBoxContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "12%"
+label_settings = SubResource("LabelSettings_j5v44")
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="Control/parent"]
 layout_mode = 2
 

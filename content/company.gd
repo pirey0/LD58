@@ -3,6 +3,8 @@ class_name Company
 
 @onready var vis: TextureRect = $Circle
 
+signal on_vanish
+
 var hovered := false
 var selected := false
 
@@ -21,9 +23,11 @@ var tax : int
 var goods : int
 var base_color := Color.WHITE
 var player_owned := false
+var vanishing := false
 
 func _ready() -> void:
 	add_to_group("object")
+	add_to_group("end_of_year_listener")
 	company_name = Util.get_random_company_name()
 	mouse_entered.connect(on_mouse_enter)
 	mouse_exited.connect(on_mouse_exit)
@@ -109,7 +113,22 @@ func change_money(amount, taxable):
 	if taxable:
 		tax += roundi(amount * 0.21)
 	
+	if money < -2000.0:
+		bankrupt()
+	
 	update_state()
+
+func bankrupt():
+	if vanishing:
+		return
+		
+	vanishing = true
+	on_vanish.emit()
+	var tw = create_tween()
+	tw.tween_property(self,"scale", Vector2.ONE , 0.0).from(0.1 * Vector2.ONE)\
+			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.tween_callback(queue_free)
+	pass
 
 func change_goods(amount):
 	goods += amount
@@ -117,8 +136,10 @@ func change_goods(amount):
 
 func add_debt(amount, interest):
 	debt += amount * (1.0 + interest)
-	
 	change_money(amount, false)
+
+func remove_debt(amount):
+	debt -= amount
 
 func apply_size():
 	$Circle.size = Vector2.ONE * 256 * size_mult
@@ -146,18 +167,20 @@ func update_state():
 	
 	$Goods.visible = goods != 0
 	$Goods.text = "GOODS: %s" % str(goods)
-	$Debt.modulate = Color.GREEN
+	$Goods.modulate = Color.GREEN
 
+func on_year_end():
+	pass
 
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()
 	out.period = randi_range(2,5)
-	out.evaluation = last_income
+	out.evaluation = max(5000.0, last_income)
 	out.debt = debt
 	
-	out.proposed_sum = (last_income - debt) * randf_range(0.3, 1.1)
+	out.proposed_sum = (out.evaluation - debt) * randf_range(0.3, 1.1)
 	out.interest = randf_range(0.05, 0.25)
-	out.debt_service = out.proposed_sum * (1.0+out.interest)
+	out.debt_service = out.proposed_sum * (1.0+out.interest) / out.period
 	
 	if out.debt > 0.5*out.evaluation:
 		out.fail_reason = LoanProposal.FailReason.Debt

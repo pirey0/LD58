@@ -24,6 +24,7 @@ var active_transfers := 0
 
 func _ready() -> void:
 	position = source.position
+	source.on_vanish.connect(vanish)
 	
 	var tw = create_tween()
 	tw.set_parallel(true)
@@ -148,6 +149,7 @@ func try_use(target):
 
 func on_connection_established():
 	connected = true
+	destination.on_vanish.connect(vanish)
 	pass
 
 func on_select():
