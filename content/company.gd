@@ -78,12 +78,18 @@ func create_buy_line2():
 	G.input.set_selected(connection)
 
 func create_subsidiary():
+	if money < 1000:
+		return
+	
 	var sub = G.world.spawn_company_at(position + Vector2(0, 500.0))
 	sub.player_owned = true
 	var connection = G.world.spawn_transfer_connection(self, 0.0, sub, 0.0)
 	connection.taxable = false
 	connection.max_amount = roundi(money * 0.25)
 	connection.packet_size = roundi(money * 0.025)
+	
+	connection = G.world.spawn_connection(self, 0.0, sub, 0.0,preload("res://content/connection_ownership.gd"))
+	
 
 func create_connection():
 	var connection = G.world.spawn_transfer_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
@@ -116,12 +122,13 @@ func bankrupt():
 		return
 		
 	vanishing = true
-	on_vanish.emit()
+	
 	var tw = create_tween()
-	tw.tween_property(self,"scale", Vector2.ONE , 0.0).from(0.1 * Vector2.ONE)\
+	tw.tween_property(self,"scale", Vector2.ZERO , 1.0).from(0.1 * Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(queue_free)
-	pass
+	
+	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(0.5)
 
 func change_goods(amount):
 	goods += amount

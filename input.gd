@@ -68,7 +68,8 @@ func on_right_click():
 		clear_selected()
 		
 	if target is Connection:
-		target.close()
+		if target.is_closable_by_user:
+			target.close()
 	else:
 		G.action_menu.open_for(target)
 

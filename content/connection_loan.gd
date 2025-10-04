@@ -11,6 +11,7 @@ var remaining := 0:
 func _ready() -> void:
 	super()
 	self.base_color = Color.SLATE_GRAY
+	is_closable_by_user = false
 
 func _physics_process(delta: float) -> void:
 	update_closure()

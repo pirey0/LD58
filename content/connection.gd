@@ -6,7 +6,9 @@ signal on_vanish
 var source : Company
 var destination : Company
 var no_producer_target := true
+var is_closable_by_user := true
 
+var line_width := 6.0
 var size_mult := 0.0
 var preview_target = null
 var completion := 0.0
@@ -51,6 +53,9 @@ func vanish():
 	tw.tween_callback(queue_free)
 
 func _process(_delta):
+	if not is_instance_valid(source):
+		return
+	
 	position = source.position
 	size = get_dest_pos()
 	
@@ -78,7 +83,7 @@ func get_dest_pos():
 func _draw():
 	if not source:
 		return
-	draw_polyline(get_spline_points(), color, 6.0 * size_mult)
+	draw_polyline(get_spline_points(), color, line_width * size_mult)
 
 func _get_canvas_item_visible_rect() -> Rect2:
 	# Expand visible area by 2000 pixels in all directions
@@ -184,6 +189,7 @@ func update_closure():
 
 func spawn_item(scene) -> ConnectionItem:
 	var inst : ConnectionItem = scene.instantiate()
+	inst.position = Vector2(-100000.0, -100000.0)
 	inst.setup(self)
 	G.world.add_child(inst,true)
 	inst.tree_exiting.connect(reduce_transfer_counter)

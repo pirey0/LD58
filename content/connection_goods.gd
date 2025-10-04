@@ -14,7 +14,6 @@ var taxable := true
 
 func _ready() -> void:
 	super()
-	set_physics_process(false)
 
 func on_connection_established():
 	super()
@@ -26,12 +25,15 @@ func on_connection_established():
 		destination = temp
 		destination_angle = temp
 	
-	set_physics_process(true)
 	pass
 	
 
 func _physics_process(delta: float) -> void:
-	update_sending(delta)
+	if connected:
+		update_sending(delta)
+	else:
+		update_closure()
+	
 
 func update_sending(delta):
 	if freeing:
