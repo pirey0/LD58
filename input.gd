@@ -38,10 +38,10 @@ func process_input(event:InputEvent):
 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			change_zoom(0.1)
+			change_zoom(Balancing.ZOOM_FACTOR)
 		
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			change_zoom(-0.1)
+			change_zoom(-Balancing.ZOOM_FACTOR)
 			
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
 			on_right_click()
@@ -68,7 +68,7 @@ func on_right_click():
 		clear_selected()
 		
 	if target is Connection:
-		if target.is_closable_by_user:
+		if target.is_closable_by_user or not target.connected:
 			target.close()
 	else:
 		G.action_menu.open_for(target)

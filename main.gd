@@ -7,7 +7,7 @@ func _ready() -> void:
 	var root :Company = G.world.spawn_company_at(pos, "Private Inequity")
 	root.player_owned = true
 	root.add_to_group("main_company")
-	root.change_money(10000.0, false)
+	root.change_money(10000, false)
 
 	var goods :Company = G.world.spawn_company_at(pos + Vector2(1000,0), "Retailer", preload("res://content/producer_company.tscn"))
 	goods.description = "Buys and Sells Goods"

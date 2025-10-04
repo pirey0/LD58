@@ -13,12 +13,12 @@ func _ready() -> void:
 
 func get_actions() -> Array[ContextAction]:
 	return [
-		ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Good for $300", Color.ORANGE),
+		ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Good for $%s" % Balancing.GOOD_VALUE_MID, Color.ORANGE),
 	]
 
 func create_buy_line():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
-	connection.good_value = 300
+	connection.good_value = Balancing.GOOD_VALUE_MID
 	G.input.set_selected(connection)
 	pass
 

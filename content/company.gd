@@ -58,15 +58,15 @@ func _gui_input(event: InputEvent) -> void:
 func get_actions() -> Array[ContextAction]:
 	return [
 		ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN, "+ Subsidiary"),
-		ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.GREEN, "Buy Good for $280", Color.LIME_GREEN),
-		ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.RED, "Buy Good for $320", Color.LIME_GREEN),
+		ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.GREEN, "Buy Good for $%s"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN),
+		ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.RED, "Buy Good for $%s"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN),
 	]
 
 func create_buy_line1():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/down.png")
 	connection.modifier_color = Color.GREEN
-	connection.good_value = 280
+	connection.good_value = Balancing.GOOD_VALUE_LOW
 	connection.no_producer_target = false
 	G.input.set_selected(connection)
 
@@ -74,7 +74,7 @@ func create_buy_line2():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/up.png")
 	connection.modifier_color = Color.ORANGE_RED
-	connection.good_value = 320
+	connection.good_value = Balancing.GOOD_VALUE_HIGH
 	G.input.set_selected(connection)
 
 func create_subsidiary():
