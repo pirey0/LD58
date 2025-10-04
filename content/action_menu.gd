@@ -17,7 +17,6 @@ func open_for(object):
 	if not object:
 		return
 	
-	print("Selected: ", object)
 	subject = object
 
 	if spawn_tween:
@@ -39,7 +38,7 @@ func spawn_item_for_action(x, idx):
 	item.callback = on_click.bind(x)
 	
 	var angle = 2*PI* float(idx)/8
-	item.position = subject.position + Util.get_company_surface_offset(null, angle) * 1.4
+	item.position = subject.position + Util.get_company_surface_offset(subject, angle) * 1.4
 	
 	add_child(item)
 	item.setup(x)

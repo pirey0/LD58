@@ -7,6 +7,5 @@ static func get_random_company_name():
 static func format_money(s:int) -> String:
 		return str(s) + "$"
 
-static func get_company_surface_offset(c, angle):
-	return Vector2(sin(angle), -cos(angle)) * 125.0
-	pass
+static func get_company_surface_offset(c : Company, angle):
+	return Vector2(sin(angle), -cos(angle)) * 125.0 * c.size_mult

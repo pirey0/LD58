@@ -3,8 +3,21 @@ class_name InputHandler
 
 @export var zoom_minmax : Vector2
 
+var active_element = null
+
 func _ready() -> void:
 	G.input = self
+
+func _process(delta: float) -> void:
+	update_active_element_preview()
+	
+func update_active_element_preview():
+	if not active_element:
+		return
+		
+	var target = G.get_hovered_object()
+	active_element.set_preview_target(target)
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	process_input(event)
@@ -16,6 +29,9 @@ func process_input(event:InputEvent):
 			# Middle mouse drag detected
 			var delta = event.relative
 			G.world.position += delta
+		
+		if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+			on_drag(event.relative)
 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
@@ -25,7 +41,7 @@ func process_input(event:InputEvent):
 			change_zoom(-0.1)
 			
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
-			open_action_menu()
+			on_right_click()
 			
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			on_left_click()
@@ -45,5 +61,44 @@ func open_action_menu():
 	G.action_menu.open_for(G.get_hovered_object())
 	pass
 
+func on_right_click():
+	var target = G.get_hovered_object()
+	if active_element and target != active_element:
+		clear_selected()
+	
+	open_action_menu()
+
 func on_left_click():
-	G.action_menu.close()
+	var target = G.get_hovered_object()
+	if not active_element:
+		G.action_menu.close()
+		set_selected(target)
+		return
+	
+	var used = active_element.try_use(target)
+	if not used:
+		set_selected(target)
+		
+
+func set_selected(t:Node):
+	if t == active_element:
+		return
+	
+	clear_selected()
+	active_element = t
+	if t:
+		t.tree_exiting.connect(clear_selected)
+		active_element.on_select()
+
+func clear_selected():
+	if not active_element:
+		return
+	
+	active_element.on_deselect()
+	active_element.tree_exiting.disconnect(clear_selected)
+	active_element = null
+
+
+func on_drag(rel):
+	if active_element and active_element.has_method("try_drag"):
+		active_element.try_drag(rel)
