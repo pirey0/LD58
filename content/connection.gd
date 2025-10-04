@@ -23,6 +23,7 @@ var closed := false
 var active_transfers := 0
 
 func _ready() -> void:
+	add_to_group("connection")
 	position = source.position
 	source.on_vanish.connect(vanish)
 	
@@ -77,8 +78,7 @@ func get_dest_pos():
 func _draw():
 	if not source:
 		return
-
-	draw_connection(get_points())
+	draw_polyline(get_spline_points(), color, 6.0 * size_mult)
 
 func _get_canvas_item_visible_rect() -> Rect2:
 	# Expand visible area by 2000 pixels in all directions
@@ -114,21 +114,22 @@ func get_point_at(curve_points,t):
 			t**3 * curve_points[2]
 		)
 
-func draw_connection(curve_points):
+func get_spline_points():
 	var points = PackedVector2Array()
 	var steps = 24
+	var curve_points = get_points()
 
 	for i in range(steps + 1):
 		var t = min(completion, float(i) / steps)
 		points.append(get_point_at(curve_points,t))
+	return points
 
-	draw_polyline(points, color, 6.0 * size_mult)
 
 func set_preview_target(t):
 	preview_target = t if is_target_valid(t) else null
 
 func is_target_valid(target):
-	if target == source or not target:
+	if target == source or not target or not target is Company:
 		return false
 	
 	if no_producer_target and target is ProducerCompany:
@@ -137,7 +138,13 @@ func is_target_valid(target):
 	return true
 
 func try_use(target):
+	if connected:
+		return false
+	
 	if not is_target_valid(target):
+		return true
+	
+	if not target is Company:
 		return true
 		
 	destination = target
@@ -167,6 +174,8 @@ func get_pos_at(percent:float) -> Vector2:
 
 func close():
 	closed = true
+	base_color = Color.DIM_GRAY
+	color = base_color
 
 func update_closure():
 	if closed:
@@ -184,3 +193,22 @@ func spawn_item(scene) -> ConnectionItem:
 func reduce_transfer_counter():
 	active_transfers -= 1
 	pass
+
+func get_point_on_curve_if_close(pos: Vector2) -> Vector2:
+	pos -= position
+	var points = get_spline_points()
+	
+	for i in range(points.size() - 1):
+		var a = points[i]
+		var b = points[i + 1]
+		var dist = distance_to_segment(pos, a, b)
+		if dist < 10:
+			return a
+	return Vector2.INF
+
+func distance_to_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
+	var ap = p - a
+	var ab = b - a
+	var t = clamp(ap.dot(ab) / ab.length_squared(), 0.0, 1.0)
+	var closest = a + ab * t
+	return p.distance_to(closest)

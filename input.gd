@@ -12,9 +12,12 @@ func _process(delta: float) -> void:
 	update_active_element_preview()
 	
 func update_active_element_preview():
-	if not active_element:
+	if not active_element :
 		return
-		
+	
+	if not active_element is Connection or active_element.closed:
+		return 
+	
 	var target = G.get_hovered_object()
 	active_element.set_preview_target(target)
 	
@@ -57,16 +60,17 @@ func change_zoom(amount):
 	var scale_change = new_scale / old_scale
 	world.position = (world.position - mouse_pos) * scale_change + mouse_pos
 
-func open_action_menu():
-	G.action_menu.open_for(G.get_hovered_object())
-	pass
 
 func on_right_click():
 	var target = G.get_hovered_object()
+	print(target)
 	if active_element and target != active_element:
 		clear_selected()
-	
-	open_action_menu()
+		
+	if target is Connection:
+		target.close()
+	else:
+		G.action_menu.open_for(target)
 
 func on_left_click():
 	var target = G.get_hovered_object()

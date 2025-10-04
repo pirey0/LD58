@@ -13,4 +13,13 @@ func get_hovered_object() -> Node:
 	while (t and not t.is_in_group("object")):
 		t = t.get_parent()	
 	
-	return t
+	if t:
+		return t
+	
+	var mouse_pos = G.world.get_mouse_pos_world()
+	for x in get_tree().get_nodes_in_group("connection"):
+		var close = x.get_point_on_curve_if_close(mouse_pos)
+		if close != Vector2.INF:
+			return x
+	
+	return null

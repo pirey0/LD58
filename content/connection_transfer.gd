@@ -26,6 +26,8 @@ func update_sending(delta):
 		return
 	
 	update_closure()
+	if closed:
+		return
 	
 	if time_to_next > 0.0:
 		time_to_next -= delta

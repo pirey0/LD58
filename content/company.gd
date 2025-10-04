@@ -89,9 +89,6 @@ func create_connection():
 	var connection = G.world.spawn_transfer_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	G.input.set_selected(connection)
 
-func set_preview_target(t):
-	pass
-
 func try_use(t):
 	return false
 
