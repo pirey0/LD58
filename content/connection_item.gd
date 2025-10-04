@@ -13,7 +13,6 @@ func setup(con : Connection):
 	connection = con
 	con.on_vanish.connect(on_connection_vanish)
 	
-
 func _ready() -> void:
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\

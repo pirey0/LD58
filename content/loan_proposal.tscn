@@ -1,0 +1,165 @@
+[gd_scene load_steps=6 format=3 uid="uid://do25e0wfx01su"]
+
+[ext_resource type="Script" uid="uid://pfnxykj55y48" path="res://content/loan_proposal.gd" id="1_j5v44"]
+[ext_resource type="Texture2D" uid="uid://84p7gs40vm7h" path="res://art/circle_full.png" id="2_sin7j"]
+[ext_resource type="Texture2D" uid="uid://bjkgxuqnvrao7" path="res://art/circle.png" id="3_cupvh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j5v44"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sin7j"]
+
+[node name="LoanProposal" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 288.0
+offset_bottom = 285.0
+script = ExtResource("1_j5v44")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -140.0
+offset_top = -157.0
+offset_right = 148.0
+offset_bottom = 128.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = -47.0
+offset_top = -41.0
+offset_right = 241.0
+offset_bottom = 244.0
+scale = Vector2(1.3, 1.3)
+mouse_filter = 2
+texture = ExtResource("2_sin7j")
+
+[node name="TextureRect2" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = -47.0
+offset_top = -41.0
+offset_right = 241.0
+offset_bottom = 244.0
+scale = Vector2(1.3, 1.3)
+mouse_filter = 2
+texture = ExtResource("3_cupvh")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 288.0
+offset_bottom = 28.0
+text = "Loan Estimate"
+horizontal_alignment = 1
+
+[node name="parent" type="VBoxContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 29.0
+offset_top = 48.0
+offset_right = 242.0
+offset_bottom = 99.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer"]
+layout_mode = 2
+text = "Evaluation:"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="eval" type="Label" parent="Control/parent/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "14.5k $"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer2"]
+layout_mode = 2
+text = "Current debt:"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="debt" type="Label" parent="Control/parent/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "14.5k $"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="HSeparator" type="HSeparator" parent="Control/parent"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer3"]
+layout_mode = 2
+text = "Proposed Sum:"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="proposal" type="Label" parent="Control/parent/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "14.5k $"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer4"]
+layout_mode = 2
+text = "Debt Service:"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="debt_service" type="Label" parent="Control/parent/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "14.5k $"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Control/parent"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/parent/HBoxContainer5"]
+layout_mode = 2
+text = "Period:            "
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="period" type="Label" parent="Control/parent/HBoxContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3 years"
+label_settings = SubResource("LabelSettings_j5v44")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 244.0
+offset_right = 287.0
+offset_bottom = 276.0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Accept" type="Button" parent="Control/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Accept"
+
+[node name="Decline" type="Button" parent="Control/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Decline"
+
+[node name="refusal_reason" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 35.0
+offset_right = 258.0
+offset_bottom = 225.0
+label_settings = SubResource("LabelSettings_sin7j")
+autowrap_mode = 3
+
+[connection signal="pressed" from="Control/HBoxContainer/Accept" to="." method="_on_accept_pressed"]
+[connection signal="pressed" from="Control/HBoxContainer/Decline" to="." method="_on_decline_pressed"]

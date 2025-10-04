@@ -14,6 +14,7 @@ var company_name : String:
 var size_mult : float
 
 var last_money : int
+var last_income : int
 var money : int
 var debt : int
 var tax : int
@@ -146,3 +147,37 @@ func update_state():
 	$Goods.visible = goods != 0
 	$Goods.text = "GOODS: %s" % str(goods)
 	$Debt.modulate = Color.GREEN
+
+
+func create_loan_proposal() -> LoanProposal:
+	var out = LoanProposal.new()
+	out.period = randi_range(2,5)
+	out.evaluation = last_income
+	out.debt = debt
+	
+	out.proposed_sum = (last_income - debt) * randf_range(0.3, 1.1)
+	out.interest = randf_range(0.05, 0.25)
+	out.debt_service = out.proposed_sum * (1.0+out.interest)
+	
+	if out.debt > 0.5*out.evaluation:
+		out.fail_reason = LoanProposal.FailReason.Debt
+	elif out.evaluation <= 0.0:
+		out.fail_reason = LoanProposal.FailReason.TooYoung
+	elif out.evaluation <= 1000.0:
+		out.fail_reason = LoanProposal.FailReason.LowIncome
+	return out
+
+class LoanProposal extends RefCounted:
+	
+	enum FailReason {None, TooYoung, LowIncome, Debt }
+	
+	var evaluation : int
+	var debt : int
+	var proposed_sum : int
+	var debt_service : int
+	var period : int
+	var fail_reason := FailReason.None
+	var interest : float
+	
+	func is_positive() -> bool:
+		return fail_reason == FailReason.None

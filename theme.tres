@@ -3,6 +3,9 @@
 [ext_resource type="FontFile" uid="uid://dsea3ni83161u" path="res://LiberStructRegular-ARdoA.ttf" id="1_e1x85"]
 
 [resource]
+Button/constants/outline_size = 10
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_e1x85")
 Label/constants/outline_size = 10
 Label/font_sizes/font_size = 24
 Label/fonts/font = ExtResource("1_e1x85")

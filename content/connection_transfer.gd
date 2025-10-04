@@ -6,9 +6,6 @@ var packet_size := 100.0
 
 var max_amount := -1
 var transfered_amount := 0.0
-
-var closed := false
-var active_transfers := 0
 var taxable := true
 
 func _ready() -> void:
@@ -28,10 +25,7 @@ func update_sending(delta):
 	if freeing:
 		return
 	
-	if closed:
-		if active_transfers <= 0:
-			vanish()
-		return
+	update_closure()
 	
 	if time_to_next > 0.0:
 		time_to_next -= delta
@@ -44,13 +38,9 @@ func update_sending(delta):
 	time_to_next = 1.0
 	source.change_money(-packet_size, taxable)
 	
-	var inst : ConnectionItem = preload("res://content/connection_item_money.tscn").instantiate()
-	inst.value = packet_size
-	inst.setup(self)
+	var inst := spawn_item(preload("res://content/connection_item_money.tscn"))
 	inst.target_reached.connect(on_target_reached)
-	G.world.add_child(inst,true)
-	active_transfers += 1
-	inst.tree_exiting.connect(reduce_transfer_counter)
+	inst.value = packet_size
 	
 	transfered_amount += packet_size
 	
@@ -59,9 +49,3 @@ func update_sending(delta):
 
 func on_target_reached():
 	destination.change_money(packet_size,taxable)
-
-func reduce_transfer_counter():
-	active_transfers -= 1
-
-func close():
-	closed = true

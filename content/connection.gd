@@ -19,7 +19,8 @@ var destination_angle
 
 var freeing = false
 var connected := false
-
+var closed := false
+var active_transfers := 0
 
 func _ready() -> void:
 	position = source.position
@@ -161,3 +162,23 @@ func on_deselect():
 
 func get_pos_at(percent:float) -> Vector2:
 	return position + get_point_at(get_points(), percent)
+
+func close():
+	closed = true
+
+func update_closure():
+	if closed:
+		if active_transfers <= 0:
+			vanish()
+
+func spawn_item(scene) -> ConnectionItem:
+	var inst : ConnectionItem = scene.instantiate()
+	inst.setup(self)
+	G.world.add_child(inst,true)
+	inst.tree_exiting.connect(reduce_transfer_counter)
+	active_transfers += 1
+	return inst
+
+func reduce_transfer_counter():
+	active_transfers -= 1
+	pass

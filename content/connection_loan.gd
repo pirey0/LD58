@@ -1,9 +1,5 @@
 extends Connection
 
-var closed := false
-var active_transfers := 0
-
-
 
 func _ready() -> void:
 	super()
@@ -13,8 +9,19 @@ func _ready() -> void:
 func on_connection_established():
 	super()
 	
-	var obj = spawn_load_hud()
-	#TODO
+	var inst := spawn_item( preload("res://content/connection_item_person.tscn"))
+	inst.target_reached.connect(on_target_reached)
+	inst.person_name = "Financial Analyst"
+
+func on_target_reached():
+	var obj = preload("res://content/loan_proposal.tscn").instantiate()
+	obj.finished.connect(on_loan_proposal_finished)
+	destination.add_child(obj)
+	obj.setup(destination)
+
+func on_loan_proposal_finished(proposal :Company.LoanProposal):
+	if not proposal:
+		vanish()
+		return
 	
-func spawn_load_hud():
-	pass
+	#TODO

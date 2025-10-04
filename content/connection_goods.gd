@@ -10,8 +10,6 @@ var invert_on_completion := false
 var max_amount := -1
 var transfered_amount := 0
 
-var closed := false
-var active_transfers := 0
 var taxable := true
 
 func _ready() -> void:
@@ -39,10 +37,7 @@ func update_sending(delta):
 	if freeing:
 		return
 	
-	if closed:
-		if active_transfers <= 0:
-			vanish()
-		return
+	update_closure()
 	
 	if time_to_next > 0.0:
 		time_to_next -= delta
@@ -55,39 +50,24 @@ func update_sending(delta):
 	time_to_next = 1.0
 	source.change_goods(-1)
 	
-	var inst : ConnectionItem = preload("res://content/connection_item_good.tscn").instantiate()
-	inst.setup(self)
+	var inst := spawn_item( preload("res://content/connection_item_good.tscn"))
 	inst.target_reached.connect(on_target_reached)
-	G.world.add_child(inst,true)
-	inst.tree_exiting.connect(reduce_transfer_counter)
 	if modifier:
 		inst.set_modifier(modifier, modifier_color)
-	
-	active_transfers += 1
 	transfered_amount += 1
 	
 	if max_amount > 0.0 and transfered_amount > max_amount:
 		close()
 
+
 func on_target_reached():
 	destination.change_goods(1)
 	destination.change_money(-good_value, true)
 	
-	var inst : ConnectionItem = preload("res://content/connection_item_money.tscn").instantiate()
-	inst.value = good_value
-	inst.setup(self)
-	inst.reversed = true
+	var inst := spawn_item(preload("res://content/connection_item_money.tscn"))
 	inst.target_reached.connect(on_money_target_reached)
-	G.world.add_child(inst,true)
-	active_transfers += 1
-	inst.tree_exiting.connect(reduce_transfer_counter)
+	inst.value = good_value
+	inst.reversed = true
 	
 func on_money_target_reached():
 	source.change_money(good_value,taxable)
-
-func reduce_transfer_counter():
-	active_transfers -= 1
-	pass
-
-func close():
-	closed = true
