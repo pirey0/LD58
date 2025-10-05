@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d20204i6maq5r"]
+[gd_scene load_steps=14 format=3 uid="uid://d20204i6maq5r"]
 
 [ext_resource type="Script" uid="uid://nkqilml4gnd1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dmk7yhquxc2uu" path="res://world.gd" id="2_h2yge"]
@@ -30,6 +30,11 @@ font_size = 40
 [sub_resource type="LabelSettings" id="LabelSettings_4c57u"]
 font_size = 24
 font_color = Color(0.601223, 0.601223, 0.60122293, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_efxa6"]
+font_size = 40
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
 
 [node name="main" type="Node"]
 script = ExtResource("1_ig7tw")
@@ -65,7 +70,7 @@ zoom_minmax = Vector2(0.1, 2)
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "retry_button", "main_menu_parent", "begin_game_btn", "objective_label", "objective_descr", "cycle_parent", "evaluation_parent")]
+[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "retry_button", "main_menu_parent", "begin_game_btn", "objective_label", "objective_descr", "cycle_parent", "evaluation_parent", "win_parent", "win_timer")]
 script = ExtResource("5_lquwl")
 progress_slider = NodePath("../CycleParent/HSlider")
 tev = NodePath("../EvaluationParent/tev")
@@ -78,6 +83,8 @@ objective_label = NodePath("../Control/Objective")
 objective_descr = NodePath("../Control/ObjectiveDescr")
 cycle_parent = NodePath("../CycleParent")
 evaluation_parent = NodePath("../EvaluationParent")
+win_parent = NodePath("../WinParent")
+win_timer = NodePath("../WinParent/Timer")
 
 [node name="CycleParent" type="Control" parent="UI"]
 layout_mode = 3
@@ -166,6 +173,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="GameOver" type="Label" parent="UI/GameoverParent"]
 layout_mode = 1
@@ -283,6 +291,94 @@ text = "HEllo how are you this is a objective test"
 label_settings = SubResource("LabelSettings_4c57u")
 horizontal_alignment = 2
 autowrap_mode = 2
+
+[node name="WinParent" type="Control" parent="UI"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Win" type="Label" parent="UI/WinParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -341.0
+offset_top = -158.0
+offset_right = 339.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Win!"
+label_settings = SubResource("LabelSettings_7mycd")
+horizontal_alignment = 1
+
+[node name="WinDescr" type="Label" parent="UI/WinParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -563.0
+offset_top = -11.0
+offset_right = 561.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Global unrest unfolds under rampant inflation. 
+You have amassed unimmaginable wealth, yet have no
+place left to spend it.
+What is the value of wealth in a societal decay?"
+label_settings = SubResource("LabelSettings_272bh")
+horizontal_alignment = 1
+
+[node name="WinText" type="Label" parent="UI/WinParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -548.0
+offset_top = 190.0
+offset_right = 576.0
+offset_bottom = 301.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "
+Thank you for playing."
+label_settings = SubResource("LabelSettings_272bh")
+horizontal_alignment = 1
+
+[node name="Timer" type="Label" parent="UI/WinParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -547.0
+offset_top = 159.0
+offset_right = 577.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Completion time: %s"
+label_settings = SubResource("LabelSettings_efxa6")
+horizontal_alignment = 1
 
 [node name="Progression" type="Node" parent="."]
 unique_name_in_owner = true

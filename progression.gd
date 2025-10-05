@@ -30,6 +30,8 @@ var current_idx := -1
 var rnd := RandomNumberGenerator.new()
 var companies_to_spawn :Array
 
+var start_time
+
 func _ready() -> void:
 	G.progression = self
 	
@@ -77,7 +79,7 @@ func start_next_step():
 	current_idx += 1
 	if current_idx >= steps.size():
 		prints("PROGRESSION: Finished")
-		G.meta.set_new_goal("","")
+		G.meta.win()
 		return
 	
 	var current : ProgressionStep = steps[current_idx]

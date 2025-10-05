@@ -16,6 +16,9 @@ class_name Meta
 @export var cycle_parent : Control
 @export var evaluation_parent : Control
 
+@export var win_parent : Control
+@export var win_timer : Label
+
 signal new_game_clicked
 
 var time := 0.0
@@ -24,9 +27,11 @@ var year_duration := 120.0
 
 var in_year_end := false
 
+
 func _ready() -> void:
 	G.meta = self
 	gameover_obj.hide()
+	win_parent.hide()
 	await get_tree().physics_frame
 	#var root = get_tree().get_first_node_in_group("main_company")
 	#root.on_vanish.connect(gameover.bind("%s went insolvent.\n\
@@ -38,6 +43,7 @@ func _ready() -> void:
 func on_new_game():
 	new_game_clicked.emit()
 	close_main_menu()
+
 
 func close_main_menu():
 	main_menu_parent.show()
@@ -124,6 +130,27 @@ func gameover(reason):
 		.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 	retry_button.pressed.connect(on_retry)
+
+func win():
+	set_new_goal("","")
+	win_parent.scale = Vector2.ZERO
+	win_parent.show()
+	
+	var dur = Time.get_unix_time_from_system() - G.progression.start_time
+	win_timer.text = win_timer.text% format_time_delta(dur)
+	
+	var tw := create_tween()
+	tw.tween_interval(2.0)
+	tw.tween_callback(func(): Engine.time_scale =0.1)
+	tw.tween_property(win_parent,"scale", Vector2.ONE , 0.5).from(0.0 * Vector2.ONE)\
+		.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func format_time_delta(seconds: int) -> String:
+	seconds = abs(seconds)
+	var hours = int(seconds / 3600)
+	var minutes = int((seconds % 3600) / 60)
+	var secs = int(seconds % 60)
+	return "%02d:%02d:%02d" % [hours, minutes, secs]
 
 func on_retry():
 	get_tree().quit(0)
