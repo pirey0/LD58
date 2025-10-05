@@ -23,7 +23,7 @@ func setup(company:Company):
 			Company.LoanProposal.FailReason.TooYoung:
 				t = "Company is too young and lacks proven trackrecord. Ask again next year."
 			Company.LoanProposal.FailReason.LowIncome:
-				t = "Company's income is below required. Come back when you've had a profitable year."
+				t = "Company's profit are too low. Come back once you are profitable."
 			Company.LoanProposal.FailReason.Debt:
 				t = "Company's outstandig debt is too high. Come back after previous debt is repait or income has increased enough to compensate."
 		%refusal_reason.text = t

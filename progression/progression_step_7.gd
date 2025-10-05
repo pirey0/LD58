@@ -5,7 +5,7 @@ func get_display_title() -> String:
 	return "Fiscal Year End"
 
 func get_display_descr() -> String:
-	return "You are approaching the end of the year. At the end of every year taxes and debt are collected and your yearly profit are reported."
+	return "You are approaching the end of the year. At the end of every year taxes and debt are collected. If a company is in debt a this time it will go bankrupt."
 
 func begin_step():
 	G.progression.year_cycle_completable = true

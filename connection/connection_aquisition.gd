@@ -9,7 +9,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	update_closure()
 
-func is_target_valid(x):
+func is_target_valid(x,verbose):
 	return x is Company and x.player_owned and x.money > source.money	
 
 func on_connection_established():

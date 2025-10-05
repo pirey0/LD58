@@ -34,9 +34,6 @@ func _ready() -> void:
 	gameover_obj.hide()
 	win_parent.hide()
 	await get_tree().physics_frame
-	#var root = get_tree().get_first_node_in_group("main_company")
-	#root.on_vanish.connect(gameover.bind("%s went insolvent.\n\
-	# The courts lifted the corporate veil, you have to stand trial. "% root.company_name))
 	objective_descr.text = ""
 	objective_label.text = ""
 	begin_game_btn.pressed.connect(on_new_game)
@@ -45,6 +42,10 @@ func on_new_game():
 	new_game_clicked.emit()
 	close_main_menu()
 
+func hook_up_game_over():
+	var root = get_tree().get_first_node_in_group("main_company")
+	root.on_vanish.connect(gameover.bind("%s went insolvent.\n\
+	 The courts lifted the corporate veil, you have to stand trial. "% root.company_name))
 
 func close_main_menu():
 	main_menu_parent.show()
@@ -169,3 +170,22 @@ func set_new_goal(title,descr):
 			)
 	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.01)
 	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.01)
+
+
+var feedback_tween
+var cur_text := ""
+func show_feedback(text, duration):
+	if text == cur_text:
+		return
+	
+	if feedback_tween:
+		feedback_tween.kill()
+	feedback_tween = create_tween()
+	
+	cur_text = text
+	mouse_feedback.visible_ratio = 0.0
+	mouse_feedback.text = text
+	feedback_tween.tween_property(mouse_feedback, "visible_ratio", 1.0, text.length()*0.01)
+	feedback_tween.tween_interval(duration)
+	feedback_tween.tween_property(mouse_feedback, "visible_ratio", 0.0,  text.length()*0.01)
+	feedback_tween.tween_callback(func(): cur_text = "")

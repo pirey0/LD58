@@ -19,13 +19,22 @@ var cancel_from_timeout := TIMEOUT_TIME
 func _ready() -> void:
 	super()
 
-func is_target_valid(target):
-	var base = super(target)
+func is_target_valid(target,verbose):
+	var base = super(target,verbose)
 	if not base:
 		return false
 	
 	if not target is ProducerCompany and not target.player_owned:
+		if verbose:
+			G.meta.show_feedback("Invalid Target", 1.0)
 		return false
+	
+	var conns = G.get_open_connections_between(source,target)
+	for x in conns:
+		if x is ConnectionGoodsTransfer:
+			if verbose:
+				G.meta.show_feedback("Only 1 trade allowed between 2 companies", 1.0)
+			return false
 	return true
 
 func on_connection_established():

@@ -293,7 +293,7 @@ func on_year_end():
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()
 	out.period = randi_range(2,5)
-	out.evaluation = last_revenue
+	out.evaluation = new_revenue if is_in_first_year else (new_revenue + last_revenue)*0.5
 	out.debt = debt
 	
 	out.proposed_sum = (out.evaluation - debt) * randf_range(0.6, 4.0)
@@ -304,8 +304,6 @@ func create_loan_proposal() -> LoanProposal:
 		out.fail_reason = LoanProposal.FailReason.LowIncome
 	elif out.debt > 0.5*out.evaluation:
 		out.fail_reason = LoanProposal.FailReason.Debt
-	elif out.evaluation <= 0.0 or is_in_first_year:
-		out.fail_reason = LoanProposal.FailReason.TooYoung
 	
 	return out
 

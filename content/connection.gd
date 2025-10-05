@@ -132,13 +132,21 @@ func get_spline_points():
 
 
 func set_preview_target(t):
-	preview_target = t if is_target_valid(t) else null
+	if not is_target_valid(t,false):
+		preview_target = null
+		return
+	
+	preview_target = t
 
-func is_target_valid(target):
+func is_target_valid(target,verbose):
 	if target == source or not target or not target is Company:
+		if verbose:
+			G.meta.show_feedback("Invalid Target", 1.0)
 		return false
 	
 	if no_producer_target and target is ProducerCompany:
+		if verbose:
+			G.meta.show_feedback("Retailer refused", 1.0)
 		return false
 	
 	return true
@@ -147,8 +155,9 @@ func try_use(target):
 	if connected:
 		return false
 	
-	if not is_target_valid(target):
+	if not is_target_valid(target,true):
 		return true
+
 	
 	if not target is Company:
 		return true
