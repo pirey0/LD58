@@ -27,7 +27,7 @@ const progression_scripts := [
 ]
 
 static func get_random_company_name():
-	return "New Company %s" % randi_range(1000,9999)
+	return G.progression.company_names.pick_random()
 
 static func format_money(s: int) -> String:
 	var suffixes = ["", "k", "m", "b", "t", "q", "Q", "s", "S", "o", "n"]

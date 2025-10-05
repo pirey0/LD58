@@ -32,7 +32,7 @@ var companies_to_spawn :Array
 
 var start_time
 
-
+var company_names := []
 
 func _ready() -> void:
 	G.progression = self
@@ -47,6 +47,9 @@ func _ready() -> void:
 	companies_to_spawn.sort_custom(func(a,b): return a[1] > b[1])
 	prints("Loaded", companies_to_spawn.size(), "real companies.")
 	
+	company_names = load_company_names_from_file()
+	prints("Loaded", company_names.size(), "company names.")
+
 func skip_to(n):
 	for x in range(current_idx, steps.size()):
 		var step : ProgressionStep = steps[x]
@@ -137,4 +140,16 @@ func load_companies_from_file() -> Array:
 		var linenr := int(line[0])
 		for x in (1 if (linenr < 20 or linenr >= 3518) else 25):
 			next_line = file.get_csv_line()
+	return out
+
+func load_company_names_from_file() -> Array:
+	var file = FileAccess.open("res://all_company_names.txt", FileAccess.READ)
+	var out := []
+	var next_line = file.get_line()
+	while next_line and not next_line.is_empty():
+		
+		next_line = file.get_line()
+		var splits = next_line.split(" ", false, 4)
+		var name = " ".join(splits.slice(0,2))
+		out.append(name)
 	return out
