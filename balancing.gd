@@ -17,3 +17,12 @@ const GOAL_NET_WORTH_5 := 1_000_000_000_000
 const GOAL_PURCHASE_1 := 50_000_000
 
 const GOAL_FORTUNE_500 := 16_000_000_000
+
+func get_tier_mult(i):
+	match i:
+		0:
+			return 1
+		1:
+			return TIER_2_MULT
+		2:
+			return TIER_3_MULT

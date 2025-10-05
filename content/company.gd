@@ -83,58 +83,48 @@ func _gui_input(event: InputEvent) -> void:
 func get_actions() -> Array:
 	var out := []
 	if G.progression.can_create_subsidiary:
-		out.append(ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), null, Color.LIME_GREEN, "Found Subsidiary"))
+		out.append(ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), null, Color.LIME_GREEN, " Subsidiary"))
 	if G.progression.can_trade_goods:
-		out.append(ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s (LOW)"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN))
-		out.append(ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s (HIGH)"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN))
+		out.append(ContextAction.new(create_sell_low.bind(0), preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s (LOW)"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN))
+		out.append(ContextAction.new(create_sell_high.bind(0), preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s (HIGH)"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN))
 		
 	if G.progression.trading_goods_tier_2:
-		out.append(ContextAction.new(create_buy_line1_tier2, preload("res://art/goods_icon.png"), preload("res://art/down.png"),\
+		out.append(ContextAction.new(create_sell_low.bind(1), preload("res://art/goods_icon.png"), preload("res://art/down.png"),\
 		 Color.RED, "Sell %s Goods for $%s (LOW)"%[Balancing.TIER_2_MULT, Balancing.GOOD_VALUE_LOW * Balancing.TIER_2_MULT], Color.ORANGE))
-		out.append(ContextAction.new(create_buy_line2_tier2, preload("res://art/goods_icon.png"), preload("res://art/up.png")\
+		out.append(ContextAction.new(create_sell_high.bind(1), preload("res://art/goods_icon.png"), preload("res://art/up.png")\
 		, Color.GREEN, "Sell %s Goods for $%s (HIGH)"%[Balancing.TIER_2_MULT,Balancing.GOOD_VALUE_HIGH*Balancing.TIER_2_MULT], Color.ORANGE))
+
+	if G.progression.trading_goods_tier_3:
+		out.append(ContextAction.new(create_sell_low.bind(2), preload("res://art/goods_icon.png"), preload("res://art/down.png"),\
+		 Color.RED, "Sell %s Goods for $%s (LOW)"%[Balancing.TIER_3_MULT, Balancing.GOOD_VALUE_LOW * Balancing.TIER_3_MULT], Color.RED))
+		out.append(ContextAction.new(create_sell_high.bind(2), preload("res://art/goods_icon.png"), preload("res://art/up.png")\
+		, Color.GREEN, "Sell %s Goods for $%s (HIGH)"%[Balancing.TIER_3_MULT,Balancing.GOOD_VALUE_HIGH*Balancing.TIER_3_MULT], Color.RED))
 
 
 	return out
 
-func create_buy_line1():
+func create_sell_low(tier):
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/down.png")
-	connection.modifier_color = Color.GREEN
-	connection.good_value = Balancing.GOOD_VALUE_LOW
+	connection.modifier_color = Color.RED
+	connection.good_per_trade = Balancing.get_tier_mult(tier)
+	connection.good_value = Balancing.GOOD_VALUE_LOW * Balancing.get_tier_mult(tier)
 	connection.no_producer_target = false
 	connection.connection_established.connect(on_trade_established)
 	G.input.set_selected(connection)
 
-func create_buy_line2():
+func create_sell_high(tier):
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
-	connection.good_value = Balancing.GOOD_VALUE_MID
+	connection.modifier = preload("res://art/up.png")
+	connection.modifier_color = Color.GREEN
+	connection.good_per_trade = Balancing.get_tier_mult(tier)
+	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.get_tier_mult(tier)
 	connection.no_producer_target = false
 	connection.connection_established.connect(on_trade_established)
 	G.input.set_selected(connection)
 
 func on_trade_established():
 	G.progression.sold_goods = true	
-
-
-func create_buy_line1_tier2():
-	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
-	connection.modifier = preload("res://art/down.png")
-	connection.modifier_color = Color.GREEN
-	connection.good_per_trade = Balancing.TIER_2_MULT
-	connection.good_value = Balancing.GOOD_VALUE_LOW * Balancing.TIER_2_MULT
-	connection.no_producer_target = false
-	connection.connection_established.connect(on_trade_established)
-	G.input.set_selected(connection)
-
-func create_buy_line2_tier2():
-	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
-	connection.good_per_trade = Balancing.TIER_2_MULT
-	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.TIER_2_MULT
-	connection.no_producer_target = false
-	connection.connection_established.connect(on_trade_established)
-	G.input.set_selected(connection)
-
 
 func create_subsidiary():
 	if money < 1000:

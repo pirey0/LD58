@@ -16,6 +16,15 @@ var taxable := true
 func _ready() -> void:
 	super()
 
+func is_target_valid(target):
+	var base = super(target)
+	if not base:
+		return false
+	
+	if not target is ProducerCompany and not target.player_owned:
+		return false
+	return true
+
 func on_connection_established():
 	super()
 	if invert_on_completion:

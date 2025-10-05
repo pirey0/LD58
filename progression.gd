@@ -17,6 +17,7 @@ var year_finished := false
 var received_loan := false
 var had_bankrupcy_with_debt := false
 var trading_goods_tier_2 := false
+var trading_goods_tier_3 := false
 var aquired_public_company := false
 var can_leverage_buyout := false
 var received_leveraged_buyout := false 
