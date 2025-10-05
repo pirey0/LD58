@@ -145,6 +145,7 @@ editable = false
 scrollable = false
 
 [node name="Label" type="Label" parent="UI/CycleParent/HSlider"]
+visible = false
 layout_mode = 0
 offset_left = 981.0
 offset_top = 26.0

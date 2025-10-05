@@ -14,7 +14,7 @@ func _ready() -> void:
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 	$Button.pressed.connect(Audio.play.bind("click2"))
-	Audio.play("bga", 0)
+	Audio.play("bga", 0.0)
 	
 func vanish():
 	var tw = create_tween()

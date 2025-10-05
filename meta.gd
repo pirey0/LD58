@@ -42,6 +42,7 @@ func _ready() -> void:
 
 func on_new_game():
 	Audio.play("click")
+	create_tween().tween_callback(func():Audio.play("zwip", -10.0, 0.3,0.3)).set_delay(0.4)
 	new_game_clicked.emit()
 	close_main_menu()
 
