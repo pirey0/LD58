@@ -14,5 +14,7 @@ func skip_step():
 	super()
 	
 func _physics_process(delta: float) -> void:
-	pass
-	#TODO
+	for x in G.get_all_player_companies():
+		if x.company_name in ["NVIDIA", "Microsoft", "Apple","Alphabet","Amazon","Meta"]:
+			finish()
+			return

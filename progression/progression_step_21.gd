@@ -5,7 +5,7 @@ func get_display_title() -> String:
 	return "Monopoly"
 
 func get_display_descr() -> String:
-	return "Aquire and bankrupt every single public company."
+	return "Aquire every single public company."
 
 func begin_step():
 	super()
@@ -14,5 +14,7 @@ func skip_step():
 	super()
 	
 func _physics_process(delta: float) -> void:
-	pass
-	#TODO
+	for x in G.get_all_companies():
+		if x is PublicCompany and not x.player_owned:
+			return
+	finish()

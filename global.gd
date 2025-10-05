@@ -29,6 +29,13 @@ func get_hovered_object() -> Node:
 	
 	return null
 
+func get_all_companies() -> Array:
+	var out := []
+	for x in get_tree().get_nodes_in_group("object"):
+		if x is Company:
+			out.append(x)
+	return out
+
 func get_all_player_companies() -> Array:
 	var out := []
 	for x in get_tree().get_nodes_in_group("object"):
