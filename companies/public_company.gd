@@ -30,7 +30,7 @@ func apply_for_leveraged_buyout():
 	
 func aquired_by_user():
 	G.progression.aquired_public_company = true
-	
+	G.progression.max_buyout = max(money, G.progression.max_buyout)
 	player_owned = true
 	circle_color = Color.FLORAL_WHITE
 	
@@ -40,7 +40,7 @@ func aquired_by_user():
 	
 	var total = money
 	money = total*split
-	goods = (total*(1.0-split))/Balancing.GOOD_VALUE_MID
+	goods = (total*(1.0-split))/Balancing.GOOD_VALUE_HIGH
 	
 	update_state()
 	#TODO effect

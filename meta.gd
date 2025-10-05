@@ -53,7 +53,7 @@ func update_stats():
 	
 	for x in get_tree().get_nodes_in_group("object"):
 		if x is Company and x.player_owned:
-			total += x.money + x.goods * Balancing.GOOD_VALUE_MID - x.debt - max(0.0, x.tax)
+			total += x.money + x.goods * Balancing.GOOD_VALUE_HIGH - x.debt - max(0.0, x.tax)
 	tev.text = Util.format_money(total)
 	G.progression.net_worth = total
 	pass

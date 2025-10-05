@@ -22,6 +22,7 @@ var can_leverage_buyout := false
 var received_leveraged_buyout := false 
 
 var net_worth := 0
+var max_buyout:=0
 
 var steps := []
 var current_idx := -1

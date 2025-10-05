@@ -1,10 +1,10 @@
 extends Node
 
-const GOOD_VALUE_MID := 100
+const GOOD_VALUE_HIGH := 100
 const GOOD_VALUE_LOW := 50
-const GOOD_VALUE_HIGH := 150
 
 const TIER_2_MULT := 10
+const TIER_3_MULT := 100
 
 const ZOOM_FACTOR := 0.05
 

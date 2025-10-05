@@ -14,5 +14,5 @@ func skip_step():
 	super()
 	
 func _physics_process(delta: float) -> void:
-	pass
-	#TODO
+	if G.progression.max_buyout >= Balancing.GOAL_FORTUNE_500:
+		finish()
