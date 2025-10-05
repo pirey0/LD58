@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d20204i6maq5r"]
+[gd_scene load_steps=15 format=3 uid="uid://d20204i6maq5r"]
 
 [ext_resource type="Script" uid="uid://nkqilml4gnd1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dmk7yhquxc2uu" path="res://world.gd" id="2_h2yge"]
@@ -16,6 +16,11 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_272bh"]
 font_size = 30
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dg77c"]
+font_size = 20
 outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
@@ -70,13 +75,12 @@ zoom_minmax = Vector2(0.1, 2)
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "retry_button", "main_menu_parent", "begin_game_btn", "objective_label", "objective_descr", "cycle_parent", "evaluation_parent", "win_parent", "win_timer")]
+[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "main_menu_parent", "begin_game_btn", "objective_label", "objective_descr", "cycle_parent", "evaluation_parent", "win_parent", "win_timer")]
 script = ExtResource("5_lquwl")
 progress_slider = NodePath("../CycleParent/HSlider")
 tev = NodePath("../EvaluationParent/tev")
 gameover_obj = NodePath("../GameoverParent")
 gameover_reason = NodePath("../GameoverParent/GameoverReason")
-retry_button = NodePath("../GameoverParent/Retry")
 main_menu_parent = NodePath("../MainMenuParent")
 begin_game_btn = NodePath("../MainMenuParent/Begin")
 objective_label = NodePath("../Control/Objective")
@@ -206,19 +210,27 @@ offset_bottom = 155.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "%s went insolvent.
-The courts lifted the corporate veil, you have to stand trial. \"))
+The courts lifted the corporate veil, you have to stand trial.
 "
 label_settings = SubResource("LabelSettings_272bh")
 horizontal_alignment = 1
 
-[node name="Retry" type="Button" parent="UI/GameoverParent"]
-layout_mode = 0
-offset_left = -201.0
-offset_top = 211.0
-offset_right = 227.0
-offset_bottom = 266.0
-theme_override_font_sizes/font_size = 40
-text = "Open New Company"
+[node name="WinText" type="Label" parent="UI/GameoverParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -548.0
+offset_top = 190.0
+offset_right = 576.0
+offset_bottom = 301.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "(Relaunch the game to start over)"
+label_settings = SubResource("LabelSettings_dg77c")
+horizontal_alignment = 1
 
 [node name="MainMenuParent" type="Control" parent="UI"]
 process_mode = 3
@@ -294,6 +306,7 @@ autowrap_mode = 2
 
 [node name="WinParent" type="Control" parent="UI"]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

@@ -117,7 +117,15 @@ layout_mode = 2
 [node name="ProfitT" type="Label" parent="StatsCtr/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "LAST PROFIT:"
+text = "PRIOR PROFIT:"
+label_settings = SubResource("LabelSettings_t5md1")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="NewProfitT" type="Label" parent="StatsCtr/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NEW PROFIT:"
 label_settings = SubResource("LabelSettings_t5md1")
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -150,6 +158,13 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="Profit" type="Label" parent="StatsCtr/HBoxContainer/AAA"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$12.4M"
+label_settings = SubResource("LabelSettings_etndd")
+vertical_alignment = 1
+
+[node name="NewProfit" type="Label" parent="StatsCtr/HBoxContainer/AAA"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "$12.4M"

@@ -1,6 +1,7 @@
 extends Control
 class_name World
 
+
 func _ready() -> void:
 	G.world = self	
 

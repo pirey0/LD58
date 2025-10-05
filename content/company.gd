@@ -29,7 +29,7 @@ var vanishing := false
 var is_in_first_year := true
 var display_value := true
 
-@onready var stats_obj := [%ProfitT,%GoodsT,%DebtT,%TaxT,%Profit,%Goods,%Debt,%Tax]
+@onready var stats_obj := [%NewProfitT, %ProfitT,%GoodsT,%DebtT,%TaxT,%Profit,%Goods,%Debt,%Tax, %NewProfit]
 
 func _ready() -> void:
 	add_to_group("object")
@@ -65,9 +65,9 @@ func on_mouse_exit() -> void:
 
 func update_highlight():
 	if selected:
-		width_mult = 1.5
+		width_mult = 2.0
 	elif hovered:
-		width_mult = 1.25
+		width_mult = 1.5
 	else:
 		width_mult = 1.0
 
@@ -83,7 +83,7 @@ func _gui_input(event: InputEvent) -> void:
 func get_actions() -> Array:
 	var out := []
 	if G.progression.can_create_subsidiary:
-		out.append(ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), null, Color.LIME_GREEN, " Subsidiary"))
+		out.append(ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), null, Color.LIME_GREEN, "New Subsidiary"))
 	if G.progression.can_trade_goods:
 		out.append(ContextAction.new(create_sell_low.bind(0), preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s (LOW)"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN))
 		out.append(ContextAction.new(create_sell_high.bind(0), preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s (HIGH)"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN))
@@ -277,13 +277,18 @@ func update_state():
 	%Profit.visible = last_revenue != 0
 	%ProfitT.visible = %Profit.visible
 	%Profit.text = Util.format_money(last_revenue)
-	%Profit.modulate = Color.RED if last_revenue < 1000.0 else Color.GREEN
-	
+	%Profit.modulate = Color.RED if last_revenue < 0.0 else Color.GREEN
+
+	%NewProfit.visible = new_revenue != 0
+	%NewProfitT.visible = %NewProfit.visible
+	%NewProfit.text = Util.format_money(new_revenue)
+	%NewProfit.modulate = Color.RED if new_revenue < 0.0 else Color.GREEN
 
 func on_year_end():
 	last_revenue = new_revenue
 	last_money = money
 	is_in_first_year = false
+	new_revenue = 0
 
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()

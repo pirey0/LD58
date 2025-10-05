@@ -13,6 +13,9 @@ var transfered_amount := 0
 
 var taxable := true
 
+const TIMEOUT_TIME := 5.0
+var cancel_from_timeout := TIMEOUT_TIME
+
 func _ready() -> void:
 	super()
 
@@ -58,8 +61,12 @@ func update_sending(delta):
 		return
 	
 	if source.goods < good_per_trade or destination.money < good_value:
+		cancel_from_timeout-= delta
+		if cancel_from_timeout < 0.0:
+			close()
 		return
 	
+	cancel_from_timeout = TIMEOUT_TIME
 	time_to_next = 1.0
 	source.change_goods(-good_per_trade)
 	

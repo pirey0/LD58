@@ -22,7 +22,7 @@ func on_target_reached():
 	
 	destination.on_year_end()
 	
-	if destination.money < -2000.0:
+	if destination.money < 0:
 		destination.bankrupt("BANKRUPT!")
 	
 	if tax <= 0.0:

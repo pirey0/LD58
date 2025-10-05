@@ -5,7 +5,7 @@ func get_display_title() -> String:
 	return "New Beginning"
 
 func get_display_descr() -> String:
-	return "Found your first company."
+	return "Found your first company.\n\nRight click to interact.\nMiddle mouse drag to pan.\n"
 
 func begin_step():
 	super()

@@ -9,6 +9,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_sin7j"]
 
 [node name="BuyoutProposal" type="Control"]
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_right = 288.0

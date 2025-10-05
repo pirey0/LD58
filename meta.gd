@@ -6,7 +6,6 @@ class_name Meta
 @export var contribution : Label
 @export var gameover_obj : Control
 @export var gameover_reason : Label
-@export var retry_button : Button
 
 @export var main_menu_parent : Control
 @export var begin_game_btn :Button
@@ -129,8 +128,6 @@ func gameover(reason):
 	tw.tween_property(gameover_obj,"scale", Vector2.ONE , 0.5).from(0.0 * Vector2.ONE)\
 		.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
-	retry_button.pressed.connect(on_retry)
-
 func win():
 	set_new_goal("","")
 	win_parent.scale = Vector2.ZERO
@@ -152,21 +149,17 @@ func format_time_delta(seconds: int) -> String:
 	var secs = int(seconds % 60)
 	return "%02d:%02d:%02d" % [hours, minutes, secs]
 
-func on_retry():
-	get_tree().quit(0)
-
-
 var goaltw : Tween
 func set_new_goal(title,descr):
 	if goaltw:
 		goaltw.kill()
 	goaltw = create_tween()
 	
-	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.03)
-	goaltw.tween_property(objective_label, "visible_ratio", 0.0, 0.1 +objective_label.text.length()*0.03)
+	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.01)
+	goaltw.tween_property(objective_label, "visible_ratio", 0.0, 0.1 +objective_label.text.length()*0.01)
 	goaltw.tween_callback(func():
 			objective_label.text = title
 			objective_descr.text = descr
 			)
-	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.03)
-	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.03)
+	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.01)
+	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.01)

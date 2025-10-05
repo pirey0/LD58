@@ -17,7 +17,7 @@ func get_actions() -> Array[ContextAction]:
 
 func create_first_company():
 	G.progression.founded = true
-	var sub = G.world.spawn_company_at(position + Vector2(0, 800.0), "Private Inequity")
+	var sub = G.world.spawn_company_at(position + Vector2(0, 400.0), "Private Inequity")
 	sub.player_owned = true
 	sub.add_to_group("main_company")
 	
