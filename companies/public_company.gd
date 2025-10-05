@@ -2,7 +2,7 @@ extends Company
 class_name PublicCompany
 
 func _ready() -> void:
-	circle_color = Color.SKY_BLUE
+	circle_color = Color.BLUE
 	super()
 
 func get_actions() -> Array:

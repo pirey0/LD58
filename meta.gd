@@ -19,6 +19,7 @@ class_name Meta
 @export var win_timer : Label
 
 @export var mouse_feedback : Label
+@export var volume_slider : Slider
 
 signal new_game_clicked
 
@@ -37,8 +38,10 @@ func _ready() -> void:
 	objective_descr.text = ""
 	objective_label.text = ""
 	begin_game_btn.pressed.connect(on_new_game)
+	volume_slider.value_changed.connect(Audio.set_volume)
 
 func on_new_game():
+	Audio.play("click")
 	new_game_clicked.emit()
 	close_main_menu()
 

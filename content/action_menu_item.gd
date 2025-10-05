@@ -12,12 +12,16 @@ func _ready() -> void:
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ONE , 0.5).from(0.1 * Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
-
+	
+	$Button.pressed.connect(Audio.play.bind("click2"))
+	Audio.play("bga", -20)
+	
 func vanish():
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ZERO , 0.2).from(Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(queue_free)
+	Audio.play("whouhu", -20)
 
 func setup(action : ContextAction):
 	$Main.texture = action.icon

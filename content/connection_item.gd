@@ -19,7 +19,7 @@ func _ready() -> void:
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ONE , 1.0).from(0.1 * Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	pass
+	Audio.play("whouhu",-15)
 
 func _process(delta: float) -> void:
 	if vanished:
@@ -43,6 +43,7 @@ func vanish():
 		return
 	vanished = true
 	
+	Audio.play("wabib",-10)
 	var tw = create_tween()
 	tw.tween_property(self,"scale", Vector2.ZERO , 0.5).from(Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)

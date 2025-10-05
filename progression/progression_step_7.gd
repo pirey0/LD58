@@ -17,7 +17,7 @@ func spawn_irs():
 	var government :Company = G.world.spawn_company_at(pos + Vector2(0,-1400), "IRS", preload("res://content/government_company.tscn"))
 	government.description = "National Tax Authority"
 	government.size_mult = 4.0
-	government.circle_color = Color.NAVY_BLUE
+	government.circle_color = Color.REBECCA_PURPLE
 	government.apply_size()
 
 func skip_step():

@@ -4,7 +4,7 @@ func _ready() -> void:
 	money = 100000
 	goods = 100000
 	display_value = false
-	circle_color = Color.PURPLE
+	circle_color = Color.CYAN
 	super()
 
 func get_actions() -> Array[ContextAction]:

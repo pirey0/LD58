@@ -161,7 +161,8 @@ func try_use(target):
 	
 	if not target is Company:
 		return true
-		
+	
+	Audio.play("wabib",4)
 	destination = target
 	G.input.set_selected(null)
 	if destination and not connected:

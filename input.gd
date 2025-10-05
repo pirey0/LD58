@@ -75,6 +75,7 @@ func on_right_click():
 		
 	if target is Connection:
 		if target.is_closable_by_user or not target.connected:
+			Audio.play("blub")
 			target.close()
 	else:
 		G.action_menu.open_for(target)

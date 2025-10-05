@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 G="*res://global.gd"
 Balancing="*res://balancing.gd"
+Audio="*res://audio.tscn"
 
 [gui]
 
