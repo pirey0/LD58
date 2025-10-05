@@ -208,7 +208,7 @@ func get_point_on_curve_if_close(pos: Vector2) -> Vector2:
 		var a = points[i]
 		var b = points[i + 1]
 		var dist = distance_to_segment(pos, a, b)
-		if dist < 10:
+		if dist < 20:
 			return a
 	return Vector2.INF
 

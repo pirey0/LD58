@@ -18,6 +18,9 @@ func get_hovered_object() -> Node:
 	
 	var mouse_pos = G.world.get_mouse_pos_world()
 	for x in get_tree().get_nodes_in_group("connection"):
+		if not x.is_closable_by_user:
+			continue
+		
 		var close = x.get_point_on_curve_if_close(mouse_pos)
 		if close != Vector2.INF:
 			return x

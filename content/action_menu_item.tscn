@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw74ln7nu0au8"]
+[gd_scene load_steps=7 format=3 uid="uid://bw74ln7nu0au8"]
 
 [ext_resource type="Texture2D" uid="uid://bjkgxuqnvrao7" path="res://art/circle.png" id="1_ff5op"]
 [ext_resource type="Script" uid="uid://begovigec88su" path="res://content/action_menu_item.gd" id="1_vlbbk"]
 [ext_resource type="Texture2D" uid="uid://84p7gs40vm7h" path="res://art/circle_full.png" id="2_5eyk8"]
 [ext_resource type="Texture2D" uid="uid://dwrbwfh2bqf5e" path="res://art/company_icon.png" id="2_6vc0b"]
 [ext_resource type="Texture2D" uid="uid://ckf24n7yjp4t0" path="res://art/plus.png" id="3_l5bdr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5eyk8"]
+font_size = 40
+outline_size = 15
+outline_color = Color(0, 0, 0, 1)
 
 [node name="ActionMenuItem" type="Control"]
 z_index = 10
@@ -69,11 +74,13 @@ mouse_filter = 2
 texture = ExtResource("3_l5bdr")
 
 [node name="Tooltip" type="Label" parent="."]
+z_index = 1
 layout_mode = 0
-offset_left = -198.0
-offset_top = -63.0
-offset_right = 202.0
-offset_bottom = -35.0
+offset_left = -500.0
+offset_top = -90.0
+offset_right = 500.0
+offset_bottom = -43.0
 text = "Tooltip"
+label_settings = SubResource("LabelSettings_5eyk8")
 horizontal_alignment = 1
 vertical_alignment = 1

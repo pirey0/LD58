@@ -34,7 +34,6 @@ func update_sending(delta):
 		return
 	
 	if source.money < packet_size:
-		close()
 		return
 	
 	time_to_next = 1.0
@@ -46,7 +45,7 @@ func update_sending(delta):
 	
 	transfered_amount += packet_size
 	
-	if max_amount > 0.0 and transfered_amount > max_amount:
+	if max_amount > 0.0 and transfered_amount >= max_amount:
 		close()
 
 func on_target_reached():

@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func get_actions() -> Array[ContextAction]:
 	return [
-		ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Good for $%s" % Balancing.GOOD_VALUE_MID, Color.ORANGE),
+		ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Goods from producer for $%s" % Balancing.GOOD_VALUE_MID, Color.ORANGE),
 	]
 
 func create_buy_line():

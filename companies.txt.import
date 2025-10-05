@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cgw2jc6a56edi"
+
+[deps]
+
+files=["res://companies.Name.translation", "res://companies.Symbol.translation", "res://companies.marketcap.translation", "res://companies.price (USD).translation", "res://companies.country.translation"]
+
+source_file="res://companies.csv"
+dest_files=["res://companies.Name.translation", "res://companies.Symbol.translation", "res://companies.marketcap.translation", "res://companies.price (USD).translation", "res://companies.country.translation"]
+
+[params]
+
+compress=true
+delimiter=0

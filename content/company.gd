@@ -70,8 +70,9 @@ func _gui_input(event: InputEvent) -> void:
 func get_actions() -> Array[ContextAction]:
 	return [
 		ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN, "+ Subsidiary"),
-		ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.GREEN, "Buy Good for $%s"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN),
-		ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.RED, "Buy Good for $%s"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN),
+		ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN),
+		ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), null, Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_MID, Color.LIME_GREEN),
+		ContextAction.new(create_buy_line3, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN),
 	]
 
 func create_buy_line1():
@@ -84,11 +85,16 @@ func create_buy_line1():
 
 func create_buy_line2():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
+	connection.good_value = Balancing.GOOD_VALUE_MID
+	connection.no_producer_target = false
+	G.input.set_selected(connection)
+	
+func create_buy_line3():
+	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/up.png")
 	connection.modifier_color = Color.ORANGE_RED
 	connection.good_value = Balancing.GOOD_VALUE_HIGH
 	G.input.set_selected(connection)
-	
 
 func create_subsidiary():
 	if money < 1000:
@@ -98,8 +104,8 @@ func create_subsidiary():
 	sub.player_owned = true
 	var connection = G.world.spawn_transfer_connection(self, 0.0, sub, 0.0)
 	connection.taxable = false
-	connection.max_amount = roundi(money * 0.25)
-	connection.packet_size = roundi(money * 0.025)
+	connection.max_amount = roundi(money * 0.50)
+	connection.packet_size = roundi(money * 0.1)
 	connection.on_vanish.connect(on_initial_transaction_finished_for_sub.bind(sub))	
 	
 	connection = G.world.spawn_connection(self, 0.0, sub, 0.0,preload("res://content/connection_ownership.gd"))
@@ -172,7 +178,7 @@ func apply_size():
 
 func update_state():
 	$Money.text = Util.format_money(money)
-	size_mult = max(1.0, (log(money)/log(10) - 2.0))
+	size_mult = max(1.0, (log(money)/log(150) - 1.0))
 	apply_size()
 	
 	if last_money == 0 or last_money == money:
@@ -206,8 +212,8 @@ func create_loan_proposal() -> LoanProposal:
 	out.evaluation = last_revenue
 	out.debt = debt
 	
-	out.proposed_sum = (out.evaluation - debt) * randf_range(0.3, 1.1)
-	out.interest = randf_range(0.05, 0.25)
+	out.proposed_sum = (out.evaluation - debt) * randf_range(0.6, 4.0)
+	out.interest = randf_range(0.10, 0.40)
 	out.debt_service = out.proposed_sum * (1.0+out.interest) / out.period
 	
 	if out.evaluation <= 1000.0:

@@ -48,7 +48,6 @@ func update_sending(delta):
 		return
 	
 	if source.goods < 1 or destination.money < good_value:
-		close()
 		return
 	
 	time_to_next = 1.0
@@ -60,7 +59,7 @@ func update_sending(delta):
 		inst.set_modifier(modifier, modifier_color)
 	transfered_amount += 1
 	
-	if max_amount > 0.0 and transfered_amount > max_amount:
+	if max_amount > 0.0 and transfered_amount >= max_amount:
 		close()
 
 
