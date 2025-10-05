@@ -5,7 +5,7 @@ signal finished(conditions)
 var proposal : Company.LoanProposal
 
 func setup(company:Company):
-	Audio.play("tzwwggg")
+	Audio.play("tzuumm")
 	proposal = company.create_loan_proposal()
 		
 	%eval.text = Util.format_money(proposal.evaluation)

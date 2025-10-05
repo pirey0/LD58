@@ -95,7 +95,6 @@ func on_left_click():
 func set_selected(t:Node):
 	if t == active_element:
 		return
-	
 	clear_selected()
 	active_element = t
 	if t:
