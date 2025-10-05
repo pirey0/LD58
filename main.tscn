@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d20204i6maq5r"]
+[gd_scene load_steps=22 format=3 uid="uid://d20204i6maq5r"]
 
 [ext_resource type="Script" uid="uid://nkqilml4gnd1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dmk7yhquxc2uu" path="res://world.gd" id="2_h2yge"]
@@ -6,6 +6,20 @@
 [ext_resource type="PackedScene" uid="uid://4as6mi5yp5ye" path="res://content/action_menu.tscn" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://qy2jwjkm2wl1" path="res://meta.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://bnhiyo4muju4o" path="res://progression.gd" id="6_272bh"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_7mycd"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_272bh"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_5vw27"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_kek77"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_4c57u"]
+thickness = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efxa6"]
+bg_color = Color(0.41981313, 0.41981313, 0.41981304, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
 
@@ -118,8 +132,15 @@ offset_right = 520.0
 offset_bottom = 30.0
 grow_horizontal = 2
 mouse_filter = 2
+theme_override_icons/grabber = SubResource("ImageTexture_7mycd")
+theme_override_icons/grabber_highlight = SubResource("ImageTexture_272bh")
+theme_override_icons/grabber_disabled = SubResource("ImageTexture_5vw27")
+theme_override_icons/tick = SubResource("ImageTexture_kek77")
+theme_override_styles/slider = SubResource("StyleBoxLine_4c57u")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_efxa6")
 max_value = 1.0
 step = 0.001
+value = 0.5
 editable = false
 scrollable = false
 

@@ -42,6 +42,6 @@ func _on_decline_pressed() -> void:
 	
 
 func vanish():
-	Audio.play("Click2")
+	Audio.play("click2")
 	queue_free()
 	pass
