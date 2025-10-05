@@ -12,12 +12,8 @@ func begin_step():
 	create_bank()
 
 func create_bank():
-	var pos = get_tree().get_first_node_in_group("main_company").position
-	var bank :Company = G.world.spawn_company_at(pos + Vector2(-1400,0), "Corporate Loan Bank", preload("res://content/bank_company.tscn"))
-	bank.description = "Offers Loans to worthy\n corporations."
-	bank.size_mult = 3.0
-	bank.circle_color = Color.GOLD
-	bank.apply_size()
+	var pos = get_tree().get_first_node_in_group("main_company").position + Vector2(-1400,0)
+	G.world.spawn_bank_at(pos)
 
 func skip_step():
 	super()

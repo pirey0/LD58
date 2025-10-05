@@ -9,10 +9,12 @@ func get_display_descr() -> String:
 
 func begin_step():
 	G.progression.spawn_companies(-1)
+	G.progression.spawn_extra_utilities()
 	super()
 
 func skip_step():
 	G.progression.spawn_companies(-1)
+	G.progression.spawn_extra_utilities()
 	super()
 	
 func _physics_process(delta: float) -> void:

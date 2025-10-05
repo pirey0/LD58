@@ -41,7 +41,7 @@ func _ready() -> void:
 		inst.name = (x as String).get_file().get_basename()
 		steps.append(inst)
 
-	rnd.seed = 0
+	rnd.seed = 3
 	companies_to_spawn = load_companies_from_file()
 	companies_to_spawn.sort_custom(func(a,b): return a[1] > b[1])
 	prints("Loaded", companies_to_spawn.size(), "real companies.")
@@ -126,6 +126,19 @@ func spawn_companies(count):
 		comp.money = data[1]
 		comp.on_initial_transaction_finished_for_sub(comp)
 		comp.update_state()
+
+func spawn_extra_utilities():
+	for x in 4:
+		var angle =  rnd.randf_range(0.0, 2*PI)
+		var dist = randf_range(4000,10000)
+		var spawn_point = dist * Vector2(sin(angle), cos(angle))
+		G.world.spawn_bank_at(spawn_point)
+
+	for x in 4:
+		var angle =  rnd.randf_range(0.0, 2*PI)
+		var dist = randf_range(4000,10000)
+		var spawn_point = dist * Vector2(sin(angle), cos(angle))
+		G.world.spawn_retailer_at(spawn_point)
 		
 func load_companies_from_file() -> Array:
 	var file = FileAccess.open("res://companies.txt", FileAccess.READ)

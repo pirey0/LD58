@@ -57,3 +57,17 @@ func find_closest_bank_to(p) -> BankCompany:
 	
 	banks.sort_custom(func(a,b): return (p-a.position).length() > (p-b.position).length())
 	return banks[0]
+
+func spawn_bank_at(x):
+	var bank :Company = G.world.spawn_company_at(x, "Corporate Loan Bank", preload("res://content/bank_company.tscn"))
+	bank.description = "Offers Loans to worthy\n corporations."
+	bank.size_mult = 3.0
+	bank.circle_color = Color.GOLD
+	bank.apply_size()
+
+func spawn_retailer_at(x):
+	var goods :Company = G.world.spawn_company_at(x, "Retailer", preload("res://content/producer_company.tscn"))
+	goods.description = "Buys and Sells Goods"
+	goods.size_mult = 2.5
+	goods.circle_color = Color.GREEN
+	goods.apply_size()

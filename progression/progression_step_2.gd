@@ -12,12 +12,8 @@ func begin_step():
 	spawn_goods()
 	
 func spawn_goods():
-	var pos = get_tree().get_first_node_in_group("main_company").position
-	var goods :Company = G.world.spawn_company_at(pos + Vector2(1000,0), "Retailer", preload("res://content/producer_company.tscn"))
-	goods.description = "Buys and Sells Goods"
-	goods.size_mult = 2.5
-	goods.circle_color = Color.AQUA
-	goods.apply_size()
+	var pos = get_tree().get_first_node_in_group("main_company").position + Vector2(1200,0)
+	G.world.spawn_retailer_at(pos)
 
 func skip_step():
 	super()

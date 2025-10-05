@@ -32,10 +32,16 @@ func process_input(event:InputEvent):
 			# Middle mouse drag detected
 			var delta = event.relative
 			G.world.position += delta
-		
+			G.world.position.x = clamp(G.world.position.x, -30000*G.world.scale.x, 30000*G.world.scale.x)
+			G.world.position.y = clamp(G.world.position.y, -30000*G.world.scale.x, 30000*G.world.scale.x)
+			
 		if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
 			on_drag(event.relative)
-
+	
+	if event is InputEventKey:
+		if event.is_pressed() and event.keycode == KEY_SPACE:
+			G.world.position = Vector2.ZERO
+	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			change_zoom(Balancing.ZOOM_FACTOR)
