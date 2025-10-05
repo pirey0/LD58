@@ -69,7 +69,6 @@ mouse_filter = 2
 texture = ExtResource("3_vyp1b")
 
 [node name="Modifier" type="TextureRect" parent="."]
-visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 8

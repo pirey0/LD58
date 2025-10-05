@@ -112,6 +112,9 @@ func start_new_year():
 	
 	
 func _input(event: InputEvent) -> void:
+	if not OS.has_feature("editor"):
+		return
+	
 	if event is InputEventKey and event.is_pressed():
 		match event.keycode:
 			KEY_1:

@@ -2,7 +2,10 @@ extends Connection
 class_name ConnectionGoodsTransfer
 
 var time_to_next := 0.0
-var good_per_trade := 1
+var good_per_trade := 1:
+	set(x):
+		good_per_trade = x
+		line_width = 12 + good_per_trade * 0.1
 var good_value := 100.0
 var modifier : Texture
 var modifier_color : Color
@@ -19,6 +22,7 @@ var cancel_from_timeout := TIMEOUT_TIME
 func _ready() -> void:
 	super()
 
+	
 func is_target_valid(target,verbose):
 	var base = super(target,verbose)
 	if not base:
