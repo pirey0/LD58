@@ -52,6 +52,8 @@ func spawn_item_for_action(starting_angle, x, idx):
 	item.setup(x)
 	
 func close():
+	if spawn_tween:
+		spawn_tween.kill()
 	subject = null
 	
 	var tw = create_tween()

@@ -35,15 +35,22 @@ func on_trip1_finished():
 	item.target_reached.connect(on_trip2_finished)
 
 func on_trip2_finished():
-	var obj = preload("res://content/loan_proposal.tscn").instantiate()
-	obj.finished.connect(on_loan_proposal_finished)
+	var obj = preload("res://content/buyout_proposal.tscn").instantiate()
+	obj.finished.connect(on_proposal_finished)
 	source.add_child(obj)
-	obj.setup(source)
+	obj.setup(source,destination)
 
-func on_loan_proposal_finished(proposal :Company.LoanProposal):
+func on_proposal_finished(proposal :PublicCompany.BuyoutProposal):
 	if not proposal:
 		vanish()
 		return
-
+	
+	G.progression.received_leveraged_buyout = true
+	destination.change_money(-proposal.remainder, false)
+	source.add_debt(proposal.proposed_sum, proposal.interest)
+	source.aquired_by_user()
+	G.world.spawn_connection(destination, 0.0, source, 0.0,preload("res://content/connection_ownership.gd"))
 	var con = G.world.spawn_connection(bank,0.0, source,0.0, preload("res://connection/connection_loan_collection.gd"))
 	con.setup(proposal)
+	
+	close()

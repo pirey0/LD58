@@ -1,4 +1,5 @@
 extends Company
+class_name PublicCompany
 
 func _ready() -> void:
 	circle_color = Color.SKY_BLUE
@@ -43,3 +44,34 @@ func aquired_by_user():
 	
 	update_state()
 	#TODO effect
+
+func create_buyout_proposal(other_company) -> BuyoutProposal:
+	var out = BuyoutProposal.new()
+	
+	out.period = randi_range(5,10)
+	out.contribution = randf_range(0.2,0.8)
+	out.proposed_sum = roundi(out.contribution * money)
+	
+	out.interest = randf_range(0.20, 0.60)
+	out.debt_service = out.proposed_sum * (1.0+out.interest) / out.period
+	
+	out.remainder = money - out.proposed_sum
+	
+	if out.remainder > other_company.money:
+		out.fail_reason = BuyoutProposal.FailReason.LackingFunds
+	return out
+
+class BuyoutProposal extends RefCounted:
+	
+	enum FailReason {None, LackingFunds }
+	
+	var contribution : float
+	var proposed_sum : int
+	var debt_service : int
+	var period : int
+	var fail_reason := FailReason.None
+	var interest : float
+	var remainder : int
+	
+	func is_positive() -> bool:
+		return fail_reason == FailReason.None
