@@ -45,8 +45,9 @@ func _ready() -> void:
 		var dist = log(value)/log(1.003)
 		var spawn_point = dist * Vector2(sin(angle), cos(angle))
 		var comp :Company = G.world.spawn_company_at(spawn_point, data[0])
-		comp.change_money(data[1], false)
+		comp.money = data[1]
 		comp.on_initial_transaction_finished_for_sub(comp)
+		comp.update_state()
 
 func load_companies_from_file() -> Array:
 	var file = FileAccess.open("res://companies.txt", FileAccess.READ)

@@ -29,6 +29,7 @@ outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8lqek"]
+font_size = 30
 outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
@@ -193,17 +194,16 @@ vertical_alignment = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
-offset_left = -500.0
-offset_top = -64.0
-offset_right = 500.0
-offset_bottom = 136.0
+offset_left = -498.0
+offset_top = 10.0
+offset_right = 502.0
+offset_bottom = 210.0
 pivot_offset = Vector2(500, 100)
 mouse_filter = 2
 
 [node name="Descr" type="Label" parent="DescrCtr"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "DESCRIPTION"
 label_settings = SubResource("LabelSettings_8lqek")
 horizontal_alignment = 1
 vertical_alignment = 1

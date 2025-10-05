@@ -10,8 +10,8 @@ func _ready() -> void:
 	add_to_group("end_of_year_listener")
 	money = 100000
 	goods = 100000
+	display_value = false
 	super()
-	%Descr.show()
 
 func get_actions() -> Array[ContextAction]:
 	return [
@@ -30,13 +30,3 @@ func on_year_end():
 
 func send_collector_to(x):
 	G.world.spawn_connection(self, 0.0, x, 0.0, preload("res://content/connection_tax.gd"))
-
-func change_money(amount, taxable):
-	return
-
-func change_goods(amount):
-	return
-
-
-func update_state():
-	pass

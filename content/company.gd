@@ -26,6 +26,7 @@ var circle_color := Color.FLORAL_WHITE
 var player_owned := false
 var vanishing := false
 var is_in_first_year := true
+var display_value := true
 
 @onready var stats_obj := [%ProfitT,%GoodsT,%DebtT,%TaxT,%Profit,%Goods,%Debt,%Tax]
 
@@ -144,6 +145,9 @@ func on_deselect():
 	update_highlight()
 
 func change_money(amount, taxable):
+	if not player_owned:
+		return
+	
 	money += amount
 	
 	if taxable:
@@ -172,6 +176,9 @@ func bankrupt(reason):
 	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(2.0)
 
 func change_goods(amount):
+	if not player_owned:
+		return
+		
 	goods += amount
 	update_state()
 
@@ -198,6 +205,20 @@ func update_label(label, label_parent, draw_size, rel_size, y_offset):
 		label_parent.position = label_parent.size * -0.5 + Vector2(0.0,draw_size*y_offset)
 
 func update_state():
+	if not player_owned:
+		%DescrCtr.show()
+		%StatsCtr.hide()
+		if not display_value:
+			%MoneyCtr.hide()
+		else:
+			%Money.text = Util.format_money(money)
+			size_mult = max(1.0, (log(money)/log(150) - 1.0))
+			apply_size()			
+		return
+	
+	%DescrCtr.hide()
+	%MoneyCtr.show()
+	
 	%Money.text = Util.format_money(money)
 	size_mult = max(1.0, (log(money)/log(150) - 1.0))
 	apply_size()
@@ -228,6 +249,7 @@ func update_state():
 	%ProfitT.visible = %Profit.visible
 	%Profit.text = Util.format_money(last_revenue)
 	%Profit.modulate = Color.RED if last_revenue < 1000.0 else Color.GREEN
+	
 
 func on_year_end():
 	last_revenue = money - last_money
