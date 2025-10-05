@@ -44,7 +44,7 @@ func delayed_ready():
 func vanish():
 	if freeing:
 		return
-	Audio.play("tshuuhug",-20.0, 1.1,1.5)
+	Audio.play("tshuuhug",-20.0, 1.3,1.5)
 	freeing = true
 	on_vanish.emit()
 	var tw = create_tween()
