@@ -63,7 +63,6 @@ func change_zoom(amount):
 
 func on_right_click():
 	var target = G.get_hovered_object()
-	print(target)
 	if active_element and target != active_element:
 		clear_selected()
 		

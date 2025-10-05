@@ -282,7 +282,7 @@ offset_bottom = 252.0
 text = "HEllo how are you this is a objective test"
 label_settings = SubResource("LabelSettings_4c57u")
 horizontal_alignment = 2
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="Progression" type="Node" parent="."]
 unique_name_in_owner = true

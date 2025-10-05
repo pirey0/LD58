@@ -12,7 +12,7 @@ func _ready() -> void:
 	display_value = false
 	super()
 
-func get_actions() -> Array[ContextAction]:
+func get_actions() -> Array:
 	var out = []
 	out.append(ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Goods from retailer for $%s" % Balancing.GOOD_VALUE_MID, Color.GREEN),)
 	

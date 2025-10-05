@@ -28,7 +28,6 @@ func _ready() -> void:
 
 	var script_files = get_all_scripts_in_dir("res://progression")
 	script_files.sort_custom(func(a,b): return a.naturalnocasecmp_to(b)<0)
-	print(script_files)
 	for x in script_files:
 		var inst = load(x).new()
 		add_child(inst,true)

@@ -70,8 +70,8 @@ func _physics_process(delta: float) -> void:
 	if G.progression.year_cycle_active:
 		time += delta
 		
-		if G.progression.year_cycle_completable:
-			time = min(0.8,time)
+		if not G.progression.year_cycle_completable:
+			time = min(year_duration-20.0,time)
 		
 		progress_slider.value = time/year_duration
 		
@@ -86,7 +86,7 @@ func trigger_year_end():
 		x.on_year_end()
 	
 	var tw := create_tween()
-	tw.tween_callback(start_new_year).set_delay(15.0)
+	tw.tween_callback(start_new_year).set_delay(10.0)
 	
 	pass
 
@@ -133,11 +133,11 @@ func set_new_goal(title,descr):
 		goaltw.kill()
 	goaltw = create_tween()
 	
-	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.03)
+	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.1)
 	goaltw.tween_property(objective_label, "visible_ratio", 0.0, 0.1 +objective_label.text.length()*0.1)
 	goaltw.tween_callback(func():
 			objective_label.text = title
 			objective_descr.text = descr
 			)
 	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.1)
-	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.03)
+	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.1)
