@@ -18,6 +18,7 @@ var width_mult := 1.0
 
 var last_money : int
 var last_revenue : int
+var new_revenue : int
 var money : int
 var debt : int
 var tax : int
@@ -79,13 +80,25 @@ func _draw() -> void:
 func _gui_input(event: InputEvent) -> void:
 	G.input.process_input(event)
 
-func get_actions() -> Array[ContextAction]:
-	return [
-		ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN, "+ Subsidiary"),
-		ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN),
-		ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), null, Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_MID, Color.LIME_GREEN),
-		ContextAction.new(create_buy_line3, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN),
-	]
+func get_actions() -> Array:
+	var out := []
+	if G.progression.can_create_subsidiary:
+		out.append(ContextAction.new(create_subsidiary, preload("res://art/company_icon.png"), preload("res://art/plus.png"), Color.LIME_GREEN, "+ Subsidiary"))
+	if G.progression.can_trade_goods:
+		out.append(ContextAction.new(create_buy_line1, preload("res://art/goods_icon.png"), preload("res://art/down.png"), Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_LOW, Color.LIME_GREEN))
+		out.append(ContextAction.new(create_buy_line2, preload("res://art/goods_icon.png"), null, Color.RED, "Sell Goods for $%s"%Balancing.GOOD_VALUE_MID, Color.LIME_GREEN))
+		out.append(ContextAction.new(create_buy_line3, preload("res://art/goods_icon.png"), preload("res://art/up.png"), Color.GREEN, "Sell Goods for $%s"%Balancing.GOOD_VALUE_HIGH, Color.LIME_GREEN))
+
+	if G.progression.trading_goods_tier_2:
+		out.append(ContextAction.new(create_buy_line1_tier2, preload("res://art/goods_icon.png"), preload("res://art/down.png"),\
+		 Color.RED, "Sell %s Goods for $%s"%[Balancing.TIER_2_MULT, Balancing.GOOD_VALUE_LOW * Balancing.TIER_2_MULT], Color.ORANGE))
+		out.append(ContextAction.new(create_buy_line2_tier2, preload("res://art/goods_icon.png")\
+		, null, Color.RED, "Sell %s Goods for $%s"%[Balancing.TIER_2_MULT,Balancing.GOOD_VALUE_MID*Balancing.TIER_2_MULT], Color.ORANGE))
+		out.append(ContextAction.new(create_buy_line3_tier2, preload("res://art/goods_icon.png"), preload("res://art/up.png")\
+		, Color.GREEN, "Sell %s Goods for $%s"%[Balancing.TIER_2_MULT,Balancing.GOOD_VALUE_HIGH*Balancing.TIER_2_MULT], Color.ORANGE))
+
+
+	return out
 
 func create_buy_line1():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
@@ -93,19 +106,53 @@ func create_buy_line1():
 	connection.modifier_color = Color.GREEN
 	connection.good_value = Balancing.GOOD_VALUE_LOW
 	connection.no_producer_target = false
+	connection.connection_established.connect(on_trade_established)
 	G.input.set_selected(connection)
 
 func create_buy_line2():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.good_value = Balancing.GOOD_VALUE_MID
 	connection.no_producer_target = false
+	connection.connection_established.connect(on_trade_established)
 	G.input.set_selected(connection)
-	
+
+func on_trade_established():
+	G.progression.sold_goods = true	
+
 func create_buy_line3():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/up.png")
 	connection.modifier_color = Color.ORANGE_RED
-	connection.good_value = Balancing.GOOD_VALUE_HIGH
+	connection.good_per_trade = Balancing.TIER_2_MULT
+	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.TIER_2_MULT
+	G.input.set_selected(connection)
+
+func create_buy_line1_tier2():
+	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
+	connection.modifier = preload("res://art/down.png")
+	connection.modifier_color = Color.GREEN
+	connection.good_per_trade = Balancing.TIER_2_MULT
+	connection.good_value = Balancing.GOOD_VALUE_LOW * Balancing.TIER_2_MULT
+	connection.no_producer_target = false
+	connection.connection_established.connect(on_trade_established)
+	G.input.set_selected(connection)
+
+func create_buy_line2_tier2():
+	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
+	connection.good_per_trade = Balancing.TIER_2_MULT
+	connection.good_value = Balancing.GOOD_VALUE_MID * Balancing.TIER_2_MULT
+	connection.no_producer_target = false
+	connection.connection_established.connect(on_trade_established)
+	G.input.set_selected(connection)
+
+func on_trade_established_tier2():
+	G.progression.sold_goods = true	
+
+func create_buy_line3_tier2():
+	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
+	connection.modifier = preload("res://art/up.png")
+	connection.modifier_color = Color.ORANGE_RED
+	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.TIER_2_MULT
 	G.input.set_selected(connection)
 
 func create_subsidiary():
@@ -119,8 +166,11 @@ func create_subsidiary():
 	connection.max_amount = roundi(money * 0.50)
 	connection.packet_size = roundi(money * 0.1)
 	connection.on_vanish.connect(on_initial_transaction_finished_for_sub.bind(sub))	
-	
+	connection.on_vanish.connect(on_finished_subsidiary)
 	connection = G.world.spawn_connection(self, 0.0, sub, 0.0,preload("res://content/connection_ownership.gd"))
+
+func on_finished_subsidiary():
+	G.progression.created_subsidiary = true
 
 func on_initial_transaction_finished_for_sub(x):
 	#end of initial transaction marks starting money	
@@ -151,6 +201,7 @@ func change_money(amount, taxable):
 	money += amount
 	
 	if taxable:
+		new_revenue += amount
 		tax += roundi(amount * 0.21)
 	
 	update_state()
@@ -171,9 +222,15 @@ func bankrupt(reason):
 	tw.tween_interval(2.0)
 	tw.tween_property(self,"scale", Vector2.ZERO , 1.0).from(Vector2.ONE)\
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tw.tween_callback(on_bankrupcy_finished)
 	tw.tween_callback(queue_free)
 	
 	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(2.0)
+
+func on_bankrupcy_finished():
+	if debt > 0:
+		G.progression.had_bankrupcy_width_debt = true
+	pass
 
 func change_goods(amount):
 	if not player_owned:
@@ -216,6 +273,7 @@ func update_state():
 			apply_size()			
 		return
 	
+	%StatsCtr.show()
 	%DescrCtr.hide()
 	%MoneyCtr.show()
 	
@@ -252,7 +310,7 @@ func update_state():
 	
 
 func on_year_end():
-	last_revenue = money - last_money
+	last_revenue = new_revenue
 	last_money = money
 	is_in_first_year = false
 

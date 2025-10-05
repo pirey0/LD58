@@ -46,7 +46,7 @@ mouse_filter = 1
 script = ExtResource("1_4tmwa")
 
 [node name="Circle" type="TextureRect" parent="."]
-self_modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.46666667, 0.46666667, 0.46666667, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -60,6 +60,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gqgfu")
+expand_mode = 1
 
 [node name="MoneyCtr" type="CenterContainer" parent="."]
 unique_name_in_owner = true

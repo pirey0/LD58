@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://d20204i6maq5r"]
+[gd_scene load_steps=13 format=3 uid="uid://d20204i6maq5r"]
 
 [ext_resource type="Script" uid="uid://nkqilml4gnd1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://dmk7yhquxc2uu" path="res://world.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://r3sdteqfw6kj" path="res://input.gd" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://4as6mi5yp5ye" path="res://content/action_menu.tscn" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://qy2jwjkm2wl1" path="res://meta.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://bnhiyo4muju4o" path="res://progression.gd" id="6_272bh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
 
@@ -17,6 +18,18 @@ outline_color = Color(0, 0, 0, 1)
 font_size = 30
 outline_size = 20
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font_size = 100
+outline_size = 40
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_4c57u"]
+font_size = 24
+font_color = Color(0.601223, 0.601223, 0.60122293, 1)
 
 [node name="main" type="Node"]
 script = ExtResource("1_ig7tw")
@@ -52,21 +65,38 @@ zoom_minmax = Vector2(0.1, 2)
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "retry_button")]
+[node name="Meta" type="Node" parent="UI" node_paths=PackedStringArray("progress_slider", "tev", "gameover_obj", "gameover_reason", "retry_button", "main_menu_parent", "begin_game_btn", "objective_label", "objective_descr", "cycle_parent", "evaluation_parent")]
 script = ExtResource("5_lquwl")
-progress_slider = NodePath("../HSlider")
-tev = NodePath("../tev")
+progress_slider = NodePath("../CycleParent/HSlider")
+tev = NodePath("../EvaluationParent/tev")
 gameover_obj = NodePath("../GameoverParent")
 gameover_reason = NodePath("../GameoverParent/GameoverReason")
 retry_button = NodePath("../GameoverParent/Retry")
+main_menu_parent = NodePath("../MainMenuParent")
+begin_game_btn = NodePath("../MainMenuParent/Begin")
+objective_label = NodePath("../Control/Objective")
+objective_descr = NodePath("../Control/ObjectiveDescr")
+cycle_parent = NodePath("../CycleParent")
+evaluation_parent = NodePath("../EvaluationParent")
 
-[node name="HSlider" type="HSlider" parent="UI"]
+[node name="CycleParent" type="Control" parent="UI"]
+layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -500.0
+offset_left = -20.0
+offset_right = -20.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="HSlider" type="HSlider" parent="UI/CycleParent"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -480.0
 offset_top = 10.0
-offset_right = 500.0
+offset_right = 520.0
 offset_bottom = 30.0
 grow_horizontal = 2
 mouse_filter = 2
@@ -75,7 +105,7 @@ step = 0.001
 editable = false
 scrollable = false
 
-[node name="Label" type="Label" parent="UI/HSlider"]
+[node name="Label" type="Label" parent="UI/CycleParent/HSlider"]
 layout_mode = 0
 offset_left = 981.0
 offset_top = 26.0
@@ -83,14 +113,20 @@ offset_right = 1021.0
 offset_bottom = 54.0
 text = "tax"
 
-[node name="tev" type="Label" parent="UI"]
+[node name="EvaluationParent" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="tev" type="Label" parent="UI/EvaluationParent"]
+layout_mode = 0
 offset_left = 42.0
 offset_top = 70.0
 offset_right = 122.0
 offset_bottom = 98.0
 text = "12.4m"
 
-[node name="Label2" type="Label" parent="UI"]
+[node name="Label2" type="Label" parent="UI/EvaluationParent"]
+layout_mode = 0
 offset_left = 27.0
 offset_top = 44.0
 offset_right = 238.0
@@ -98,7 +134,8 @@ offset_bottom = 72.0
 text = "Total Enterprise value"
 label_settings = SubResource("LabelSettings_lquwl")
 
-[node name="Label3" type="Label" parent="UI"]
+[node name="Label3" type="Label" parent="UI/EvaluationParent"]
+layout_mode = 0
 offset_left = 26.0
 offset_top = 125.0
 offset_right = 259.0
@@ -106,7 +143,8 @@ offset_bottom = 153.0
 text = "Contribution to society"
 label_settings = SubResource("LabelSettings_lquwl")
 
-[node name="contr" type="Label" parent="UI"]
+[node name="contr" type="Label" parent="UI/EvaluationParent"]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 152.0
 offset_right = 120.0
@@ -173,3 +211,79 @@ offset_right = 227.0
 offset_bottom = 266.0
 theme_override_font_sizes/font_size = 40
 text = "Open New Company"
+
+[node name="MainMenuParent" type="Control" parent="UI"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="UI/MainMenuParent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -341.0
+offset_top = -158.0
+offset_right = 339.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Private Inequity"
+label_settings = SubResource("LabelSettings_5vw27")
+horizontal_alignment = 1
+
+[node name="Begin" type="Button" parent="UI/MainMenuParent"]
+layout_mode = 0
+offset_left = -201.0
+offset_top = 211.0
+offset_right = 227.0
+offset_bottom = 266.0
+theme_override_font_sizes/font_size = 40
+text = "Begin"
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Objective" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_left = -971.0
+offset_top = 94.0
+offset_right = 29.0
+offset_bottom = 122.0
+text = "Current Mission Objective"
+label_settings = SubResource("LabelSettings_kek77")
+horizontal_alignment = 2
+
+[node name="ObjectiveDescr" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_left = -478.0
+offset_top = 152.0
+offset_right = 22.0
+offset_bottom = 252.0
+text = "HEllo how are you this is a objective test"
+label_settings = SubResource("LabelSettings_4c57u")
+horizontal_alignment = 2
+autowrap_mode = 2
+
+[node name="Progression" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_272bh")

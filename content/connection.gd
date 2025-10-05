@@ -2,6 +2,7 @@ extends Control
 class_name Connection
 
 signal on_vanish
+signal connection_established
 
 var source : Company
 var destination : Company
@@ -161,6 +162,7 @@ func try_use(target):
 
 func on_connection_established():
 	connected = true
+	connection_established.emit()
 	destination.on_vanish.connect(vanish)
 	pass
 

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ujj7qltrwtwo"]
+
+[ext_resource type="PackedScene" uid="uid://q75q7axsbbn2" path="res://content/company.tscn" id="1_3sltj"]
+[ext_resource type="Script" uid="uid://heuowk4xhqgh" path="res://companies/company_start.gd" id="2_yfdhg"]
+
+[node name="Company" instance=ExtResource("1_3sltj")]
+script = ExtResource("2_yfdhg")

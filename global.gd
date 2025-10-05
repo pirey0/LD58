@@ -3,6 +3,8 @@ extends Node
 var world : World
 var action_menu : ActionMenu
 var input : InputHandler
+var meta : Meta
+var progression : Progression
 
 func get_mouse_pos() -> Vector2:
 	return get_viewport().get_mouse_position()
@@ -26,3 +28,10 @@ func get_hovered_object() -> Node:
 			return x
 	
 	return null
+
+func get_all_player_companies() -> Array:
+	var out := []
+	for x in get_tree().get_nodes_in_group("object"):
+		if x is Company and x.player_owned:
+			out.append(x)
+	return out

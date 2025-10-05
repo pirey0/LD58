@@ -30,6 +30,8 @@ func on_target_reached():
 	obj.setup(destination)
 
 func on_loan_proposal_finished(proposal :Company.LoanProposal):
+	G.progression.attempted_to_get_loan = true
+	
 	if not proposal:
 		vanish()
 		return
@@ -51,6 +53,7 @@ func on_loan_proposal_finished(proposal :Company.LoanProposal):
 
 func deliver_money(x):
 	destination.add_debt(x, loan.interest)
+	G.progression.received_loan = true
 
 func on_year_end():
 	#dont get returns immediately

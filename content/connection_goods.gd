@@ -2,6 +2,7 @@ extends Connection
 class_name ConnectionGoodsTransfer
 
 var time_to_next := 0.0
+var good_per_trade := 1
 var good_value := 100.0
 var modifier : Texture
 var modifier_color : Color
@@ -47,24 +48,24 @@ func update_sending(delta):
 		time_to_next -= delta
 		return
 	
-	if source.goods < 1 or destination.money < good_value:
+	if source.goods < good_per_trade or destination.money < good_value:
 		return
 	
 	time_to_next = 1.0
-	source.change_goods(-1)
+	source.change_goods(-good_per_trade)
 	
 	var inst := spawn_item( preload("res://content/connection_item_good.tscn"))
 	inst.target_reached.connect(on_target_reached)
 	if modifier:
 		inst.set_modifier(modifier, modifier_color)
-	transfered_amount += 1
+	transfered_amount += good_per_trade
 	
 	if max_amount > 0.0 and transfered_amount >= max_amount:
 		close()
 
 
 func on_target_reached():
-	destination.change_goods(1)
+	destination.change_goods(good_per_trade)
 	destination.change_money(-good_value, true)
 	
 	var inst := spawn_item(preload("res://content/connection_item_money.tscn"))
