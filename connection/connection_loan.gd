@@ -1,12 +1,8 @@
 extends Connection
 
-var loan : Company.LoanProposal
-var year := 0
-var remaining := 0:
-	set(x):
-		remaining = x
-		if remaining<=0:
-			on_loan_delivered()
+var loan 
+
+var remaining := 0
 
 func _ready() -> void:
 	super()
@@ -33,14 +29,14 @@ func on_loan_proposal_finished(proposal :Company.LoanProposal):
 	G.progression.attempted_to_get_loan = true
 	
 	if not proposal:
-		vanish()
+		close()
 		return
+	var con = G.world.spawn_connection(source,0.0, destination,0.0, preload("res://connection/connection_loan_collection.gd"))
+	con.setup(proposal)
 	
 	loan = proposal
-	add_to_group("end_of_year_listener")
 	remaining = loan.proposed_sum
-	
-	var step := 1000
+	var step = max(1000, roundi(remaining*0.05))
 	var tw := create_tween()
 	for x in ceili(float(loan.proposed_sum)/step):
 		tw.tween_callback(func():
@@ -50,33 +46,9 @@ func on_loan_proposal_finished(proposal :Company.LoanProposal):
 				remaining -= value
 				item.value = value
 						).set_delay(1.0)
+	
+	tw.tween_callback(close)
 
 func deliver_money(x):
 	destination.add_debt(x, loan.interest)
 	G.progression.received_loan = true
-
-func on_year_end():
-	#dont get returns immediately
-	if year == 0:
-		year+= 1
-		return
-	
-	var inst := spawn_item( preload("res://content/connection_item_person.tscn"))
-	inst.target_reached.connect(on_debt_collector_reached)
-	inst.person_name = "Debt Collector"
-	
-
-func on_debt_collector_reached():
-	destination.remove_debt(loan.debt_service)
-	destination.change_money(-loan.debt_service, false)
-	
-	var item = spawn_item(preload("res://content/connection_item_money.tscn"))
-	item.value = loan.debt_service
-	item.reversed = true
-	
-	year += 1
-	if year > loan.period:
-		close()
-
-func on_loan_delivered():
-	pass

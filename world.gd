@@ -38,7 +38,7 @@ func spawn_goods_connection(origin, origin_angle:float, target, target_angle : f
 	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://content/connection_goods.gd"))
 
 func spawn_loan_connection(origin, origin_angle:float, target, target_angle : float):
-	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://content/connection_loan.gd"))
+	return spawn_connection(origin, origin_angle, target, target_angle, preload("res://connection/connection_loan.gd"))
 
 func spawn_connection(origin, origin_angle:float, target, target_angle : float, script):
 	var inst : Connection = script.new()
@@ -49,3 +49,11 @@ func spawn_connection(origin, origin_angle:float, target, target_angle : float, 
 	inst.destination_angle = target_angle
 	add_child(inst, true)
 	return inst
+
+func find_closest_bank_to(p) -> BankCompany:
+	var banks := get_tree().get_nodes_in_group("bank")
+	if banks.size() == 0:
+		return null
+	
+	banks.sort_custom(func(a,b): return (p-a.position).length() > (p-b.position).length())
+	return banks[0]

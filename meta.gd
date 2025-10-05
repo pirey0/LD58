@@ -108,7 +108,9 @@ func _input(event: InputEvent) -> void:
 			KEY_4:
 				Engine.time_scale -= 1
 			KEY_Q:
-				G.progression.skip_all()
+				G.progression.skip()
+			KEY_5:
+				get_tree().get_first_node_in_group("main_company").change_money(1_000_000,false)
 
 func gameover(reason):
 	gameover_obj.scale = Vector2.ZERO
@@ -133,11 +135,11 @@ func set_new_goal(title,descr):
 		goaltw.kill()
 	goaltw = create_tween()
 	
-	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.1)
-	goaltw.tween_property(objective_label, "visible_ratio", 0.0, 0.1 +objective_label.text.length()*0.1)
+	goaltw.tween_property(objective_descr, "visible_ratio", 0.0, 0.1 +objective_descr.text.length()*0.03)
+	goaltw.tween_property(objective_label, "visible_ratio", 0.0, 0.1 +objective_label.text.length()*0.03)
 	goaltw.tween_callback(func():
 			objective_label.text = title
 			objective_descr.text = descr
 			)
-	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.1)
-	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.1)
+	goaltw.tween_property(objective_label, "visible_ratio", 1.0,  0.1  + title.length()*0.03)
+	goaltw.tween_property(objective_descr, "visible_ratio", 1.0,  0.1  + descr.length()*0.03)

@@ -123,8 +123,7 @@ func create_buy_line3():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/up.png")
 	connection.modifier_color = Color.ORANGE_RED
-	connection.good_per_trade = Balancing.TIER_2_MULT
-	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.TIER_2_MULT
+	connection.good_value = Balancing.GOOD_VALUE_HIGH
 	G.input.set_selected(connection)
 
 func create_buy_line1_tier2():
@@ -145,13 +144,11 @@ func create_buy_line2_tier2():
 	connection.connection_established.connect(on_trade_established)
 	G.input.set_selected(connection)
 
-func on_trade_established_tier2():
-	G.progression.sold_goods = true	
-
 func create_buy_line3_tier2():
 	var connection :ConnectionGoodsTransfer = G.world.spawn_goods_connection(self, G.world.get_mouse_angle_to(position), null, 0.0)
 	connection.modifier = preload("res://art/up.png")
 	connection.modifier_color = Color.ORANGE_RED
+	connection.good_per_trade = Balancing.TIER_2_MULT
 	connection.good_value = Balancing.GOOD_VALUE_HIGH * Balancing.TIER_2_MULT
 	G.input.set_selected(connection)
 

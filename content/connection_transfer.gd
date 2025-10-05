@@ -39,7 +39,7 @@ func update_sending(delta):
 	time_to_next = 1.0
 	source.change_money(-packet_size, taxable)
 	
-	var inst := spawn_item(preload("res://content/connection_item_money.tscn"))
+	var inst := spawn_item(load("res://content/connection_item_money.tscn"))
 	inst.target_reached.connect(on_target_reached)
 	inst.value = packet_size
 	

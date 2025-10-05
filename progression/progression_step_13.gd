@@ -8,10 +8,14 @@ func get_display_descr() -> String:
 	return "Loans will only take you so far. It's time to take it to the next step. \n Aquire a publicly traded company."
 
 func begin_step():
-	#TODO spawn in first few small companies
+	spawn_first_companies()
 	super()
 
+func spawn_first_companies():
+	G.progression.spawn_companies(10)
+
 func skip_step():
+	spawn_first_companies()
 	super()
 	
 func _physics_process(delta: float) -> void:
