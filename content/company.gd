@@ -11,7 +11,7 @@ var selected := false
 var company_name : String:
 	set(x):
 		company_name = x
-		$Name.text = x
+		%Name.text = x
 
 var size_mult : float
 var width_mult := 1.0
@@ -27,12 +27,20 @@ var player_owned := false
 var vanishing := false
 var is_in_first_year := true
 
+@onready var stats_obj := [%ProfitT,%GoodsT,%DebtT,%TaxT,%Profit,%Goods,%Debt,%Tax]
+
 func _ready() -> void:
 	add_to_group("object")
 	company_name = Util.get_random_company_name()
 	mouse_entered.connect(on_mouse_enter)
 	mouse_exited.connect(on_mouse_exit)
-	
+
+	dupl_label_settings(%Money)
+	dupl_label_settings(%Name)
+	dupl_label_settings(%Profit)
+	for x in stats_obj:
+		x.label_settings = %Profit.label_settings
+
 	update_state()
 	
 	var tw = create_tween()
@@ -41,6 +49,9 @@ func _ready() -> void:
 	
 	tw.tween_callback(update_state)
 
+
+func dupl_label_settings(x):
+	x.label_settings = x.label_settings.duplicate()
 
 func on_mouse_enter() -> void:
 	hovered = true
@@ -172,34 +183,51 @@ func remove_debt(amount):
 	debt -= amount
 
 func apply_size():
-	$Circle.size = Vector2.ONE * 256 * size_mult
+	var draw_size := 256 * size_mult
+	$Circle.size = Vector2.ONE * draw_size
 	$Circle.position = $Circle.size * -0.5
 	update_highlight()
+	
+	update_label(%Money, %MoneyCtr, draw_size, 0.15, -0.25)
+	update_label(%Name, %NameCtr, draw_size, 0.1, 0.0)
+	update_label(%Profit, %StatsCtr, draw_size, 0.05, 0.25)
+
+func update_label(label, label_parent, draw_size, rel_size, y_offset):
+		label.label_settings.font_size = draw_size*rel_size
+		label.label_settings.outline_size = draw_size*rel_size*0.5
+		label_parent.position = label_parent.size * -0.5 + Vector2(0.0,draw_size*y_offset)
 
 func update_state():
-	$Money.text = Util.format_money(money)
+	%Money.text = Util.format_money(money)
 	size_mult = max(1.0, (log(money)/log(150) - 1.0))
 	apply_size()
 	
-	if last_money == 0 or last_money == money:
-		$MoneyDiff.hide()
-	else:
-		$MoneyDiff.show()
-		$MoneyDiff.modulate = Color.GREEN if money > last_money else Color.RED
-		var change = (100.0* (money - last_money)/last_money)
-		$MoneyDiff.text = ("▲" if change > 0 else "▼")  + ("%.1f%%" %  abs(change))
+	#if last_money == 0 or last_money == money:
+	#	$MoneyDiff.hide()
+	#else:
+	#	$MoneyDiff.show()
+	#	$MoneyDiff.modulate = Color.GREEN if money > last_money else Color.RED
+	#	var change = (100.0* (money - last_money)/last_money)
+	#	$MoneyDiff.text = ("▲" if change > 0 else "▼")  + ("%.1f%%" %  abs(change))
 	
-	$Tax.visible = tax != 0
-	$Tax.text = "TAX: %s" % Util.format_money(tax) 
-	$Tax.modulate = Color.GREEN if tax < 0 else Color.RED
+	%Tax.visible = tax > 0
+	%TaxT.visible = %Tax.visible
+	%Tax.text = Util.format_money(tax) 
+	%Tax.modulate = Color.GREEN if tax < 0 else Color.RED
 	
-	$Debt.visible = debt != 0
-	$Debt.text = "DEBT: %s" % Util.format_money(debt)
-	$Debt.modulate = Color.RED
+	%Debt.visible = debt != 0
+	%DebtT.visible = %Debt.visible
+	%Debt.text = Util.format_money(debt)
+	%Debt.modulate = Color.RED
 	
-	$Goods.visible = goods != 0
-	$Goods.text = "GOODS: %s" % str(goods)
-	$Goods.modulate = Color.GREEN
+	%Goods.visible = goods != 0
+	%GoodsT.visible = %Goods.visible
+	%Goods.text = str(goods)
+	
+	%Profit.visible = last_revenue != 0
+	%ProfitT.visible = %Profit.visible
+	%Profit.text = Util.format_money(last_revenue)
+	%Profit.modulate = Color.RED if last_revenue < 1000.0 else Color.GREEN
 
 func on_year_end():
 	last_revenue = money - last_money

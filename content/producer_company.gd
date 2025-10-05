@@ -4,13 +4,13 @@ class_name ProducerCompany
 var description:String:
 	set(x):
 		description = x
-		$Descr.text = x
+		%Descr.text = x
 
 func _ready() -> void:
 	money = 100000
 	goods = 100000
 	super()
-
+	%Descr.show()
 func get_actions() -> Array[ContextAction]:
 	return [
 		ContextAction.new(create_buy_line, preload("res://art/goods_icon.png"), null, Color.ORANGE_RED, "Buy Goods from producer for $%s" % Balancing.GOOD_VALUE_MID, Color.ORANGE),

@@ -4,12 +4,13 @@ class_name BankCompany
 var description:String:
 	set(x):
 		description = x
-		$Descr.text = x
+		%Descr.text = x
 
 func _ready() -> void:
 	money = 100000
 	goods = 100000
 	super()
+	%Descr.show()
 
 func get_actions() -> Array[ContextAction]:
 	return [
