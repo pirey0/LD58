@@ -161,7 +161,7 @@ func try_drag(rel):
 func on_select():
 	selected = true
 	update_highlight()
-	Audio.play("click2", -5, 1.1, 2.0)
+	Audio.play("click2", -20, 1.1, 2.0)
 
 func on_deselect():
 	selected = false
