@@ -139,6 +139,7 @@ func create_subsidiary():
 	connection.on_vanish.connect(on_initial_transaction_finished_for_sub.bind(sub))	
 	connection.on_vanish.connect(on_finished_subsidiary)
 	connection = G.world.spawn_connection(self, 0.0, sub, 0.0,preload("res://content/connection_ownership.gd"))
+	Audio.play("bgaugughu")
 
 func on_finished_subsidiary():
 	G.progression.created_subsidiary = true
@@ -195,7 +196,7 @@ func bankrupt(reason):
 			.set_trans(Tween.TransitionType.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(on_bankrupcy_finished)
 	tw.tween_callback(queue_free)
-	
+	Audio.play("tzwwggg")
 	create_tween().tween_callback(func(): on_vanish.emit()).set_delay(2.0)
 
 func on_bankrupcy_finished():

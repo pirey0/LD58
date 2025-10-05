@@ -38,4 +38,5 @@ func on_target_reached():
 	var item = spawn_item(preload("res://content/connection_item_money.tscn"))
 	item.value = tax
 	item.reversed = true
+	Audio.play("bguaugh",-5.0)
 	

@@ -5,6 +5,7 @@ signal finished(conditions)
 var proposal : Company.LoanProposal
 
 func setup(company:Company):
+	Audio.play("tzwwggg")
 	proposal = company.create_loan_proposal()
 		
 	%eval.text = Util.format_money(proposal.evaluation)
@@ -41,5 +42,6 @@ func _on_decline_pressed() -> void:
 	
 
 func vanish():
+	Audio.play("Click2")
 	queue_free()
 	pass

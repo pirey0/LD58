@@ -38,6 +38,7 @@ func on_debt_collector_reached():
 	var item = spawn_item(load("res://content/connection_item_money.tscn"))
 	item.value = loan.debt_service
 	item.reversed = true
+	Audio.play("bguaugh",-5.0)
 	
 	year += 1
 	if year > loan.period:

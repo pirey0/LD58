@@ -44,6 +44,7 @@ func aquired_by_user():
 	
 	update_state()
 	#TODO effect
+	Audio.play("phuwhag")
 
 func create_buyout_proposal(other_company) -> BuyoutProposal:
 	var out = BuyoutProposal.new()
