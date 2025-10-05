@@ -18,6 +18,8 @@ class_name Meta
 @export var win_parent : Control
 @export var win_timer : Label
 
+@export var mouse_feedback : Label
+
 signal new_game_clicked
 
 var time := 0.0
@@ -61,6 +63,10 @@ func update_stats():
 			total += x.money + x.goods * Balancing.GOOD_VALUE_HIGH - x.debt - max(0.0, x.tax)
 	tev.text = Util.format_money(total)
 	G.progression.net_worth = total
+	pass
+
+func _process(delta: float) -> void:
+	mouse_feedback.global_position = get_viewport().get_mouse_position()
 	pass
 
 func _physics_process(delta: float) -> void:

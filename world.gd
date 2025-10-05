@@ -44,6 +44,7 @@ func spawn_loan_connection(origin, origin_angle:float, target, target_angle : fl
 func spawn_connection(origin, origin_angle:float, target, target_angle : float, script):
 	var inst : Connection = script.new()
 	inst.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inst.z_index = -1
 	inst.source = origin
 	inst.source_angle = origin_angle
 	inst.destination = target

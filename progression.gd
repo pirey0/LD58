@@ -32,12 +32,11 @@ var companies_to_spawn :Array
 
 var start_time
 
+
+
 func _ready() -> void:
 	G.progression = self
-	
-	var script_files = get_all_scripts_in_dir("res://progression")
-	script_files.sort_custom(func(a,b): return a.naturalnocasecmp_to(b)<0)
-	for x in script_files:
+	for x in Util.progression_scripts:
 		var inst = load(x).new()
 		add_child(inst,true)
 		inst.name = (x as String).get_file().get_basename()
@@ -92,26 +91,6 @@ func start_next_step():
 func on_step_finished():
 	start_next_step()
 
-func get_all_scripts_in_dir(path: String, recursive := false) -> Array:
-	var scripts: Array = []
-	var dir := DirAccess.open(path)
-	if dir == null:
-		push_error("Cannot open directory: %s" % path)
-		return scripts
-
-	dir.list_dir_begin()
-	var file_name = dir.get_next()
-	while file_name != "":
-		if dir.current_is_dir():
-			if recursive and not file_name.begins_with("."):
-				scripts += get_all_scripts_in_dir(path.path_join(file_name), true)
-		else:
-			if file_name.ends_with(".gd") or file_name.ends_with(".gdextension") or file_name.ends_with(".cs"):
-				scripts.append(path.path_join(file_name))
-		file_name = dir.get_next()
-
-	dir.list_dir_end()
-	return scripts
 
 
 func spawn_companies(count):

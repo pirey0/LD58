@@ -10,6 +10,7 @@ func _ready() -> void:
 	self.color = Color.REBECCA_PURPLE
 	line_width = 4.0
 	is_closable_by_user = false
+	z_index = -5
 
 func _physics_process(delta: float) -> void:
 	update_closure()

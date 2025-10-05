@@ -1,6 +1,31 @@
 extends Node
 class_name Util
 
+const progression_scripts := [
+	"res://progression/progression_step_0.gd",
+	"res://progression/progression_step_1.gd",
+	"res://progression/progression_step_2.gd",
+	"res://progression/progression_step_3.gd",
+	"res://progression/progression_step_4.gd",
+	"res://progression/progression_step_5.gd",
+	"res://progression/progression_step_6.gd",
+	"res://progression/progression_step_7.gd",
+	"res://progression/progression_step_8.gd",
+	"res://progression/progression_step_9.gd",
+	"res://progression/progression_step_10.gd",
+	"res://progression/progression_step_11.gd",
+	"res://progression/progression_step_12.gd",
+	"res://progression/progression_step_13.gd",
+	"res://progression/progression_step_14.gd",
+	"res://progression/progression_step_15.gd",
+	"res://progression/progression_step_16.gd",
+	"res://progression/progression_step_17.gd",
+	"res://progression/progression_step_18.gd",
+	"res://progression/progression_step_19.gd",
+	"res://progression/progression_step_20.gd",
+	"res://progression/progression_step_21.gd",
+]
+
 static func get_random_company_name():
 	return "New Company %s" % randi_range(1000,9999)
 

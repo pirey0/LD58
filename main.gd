@@ -7,3 +7,4 @@ func _ready() -> void:
 		G.progression.skip_to("progression_step_20")
 	else:
 		G.progression.start()
+	print(get_window().size)
