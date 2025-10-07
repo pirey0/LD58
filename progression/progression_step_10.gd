@@ -5,7 +5,7 @@ func get_display_title() -> String:
 	return "New Heights"
 
 func get_display_descr() -> String:
-	return "Now that you have a basic grasp of the trade, reach $s total eval." % Util.format_money(Balancing.GOAL_NET_WORTH_1)
+	return "Now that you have a basic grasp of the trade, reach %s total eval." % Util.format_money(Balancing.GOAL_NET_WORTH_1)
 
 func begin_step():
 	G.progression.trading_goods_tier_2 = true

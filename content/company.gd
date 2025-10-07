@@ -202,7 +202,7 @@ func bankrupt(reason):
 
 func on_bankrupcy_finished():
 	if debt > 0:
-		G.progression.had_bankrupcy_width_debt = true
+		G.progression.had_bankrupcy_with_debt = true
 	pass
 
 func change_goods(amount):
@@ -295,10 +295,10 @@ func on_year_end():
 func create_loan_proposal() -> LoanProposal:
 	var out = LoanProposal.new()
 	out.period = randi_range(2,5)
-	out.evaluation = new_revenue if is_in_first_year else (new_revenue + last_revenue)*0.5
+	out.evaluation = new_revenue if is_in_first_year else (new_revenue + last_revenue)
 	out.debt = debt
 	
-	out.proposed_sum = (out.evaluation - debt) * randf_range(0.6, 4.0)
+	out.proposed_sum = (out.evaluation - debt) * randf_range(1.0, 8.0)
 	out.interest = randf_range(0.10, 0.40)
 	out.debt_service = out.proposed_sum * (1.0+out.interest) / out.period
 	

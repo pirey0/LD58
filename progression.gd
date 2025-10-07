@@ -125,21 +125,22 @@ func spawn_extra_utilities():
 		G.world.spawn_retailer_at(spawn_point)
 		
 func load_companies_from_file() -> Array:
-	var file = FileAccess.open("res://companies.txt", FileAccess.READ)
+	var file = FileAccess.open("res://companies2.txt", FileAccess.READ)
 	
-	var next_line := file.get_csv_line()
-	next_line = file.get_csv_line()
+	var next_line := file.get_line()
+	print("LINE1:", next_line)
+	next_line = file.get_line()
 	#skip header
 	
 	var out := []
-	while not next_line.size()<4:
-		var line := next_line
+	while next_line and not next_line.is_empty():
+		var line := next_line.split(",",false)
 		var value = int(line[3])
 		if value > 5000.0:
 			out.append([line[1], value])
 		var linenr := int(line[0])
 		for x in (1 if (linenr < 20 or linenr >= 3518) else 25):
-			next_line = file.get_csv_line()
+			next_line = file.get_line()
 	return out
 
 func load_company_names_from_file() -> Array:

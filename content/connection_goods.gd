@@ -74,9 +74,6 @@ func update_sending(delta):
 		return
 	
 	if source.goods < good_per_trade or destination.money < good_value:
-		cancel_from_timeout-= delta
-		if cancel_from_timeout < 0.0:
-			close()
 		return
 	
 	cancel_from_timeout = TIMEOUT_TIME
